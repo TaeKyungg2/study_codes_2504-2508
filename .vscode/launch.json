@@ -1,0 +1,23 @@
+// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+
+
+    {
+      "name": "Run C++",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\dev\\bin\\gdb.exe",  // MinGW 설치 경로에 따라 다를 수 있음
+      "preLaunchTask": "C/C++: g++.exe build active file",
+
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 #include<iostream>
 #include<vector>
-#include<stdio.h>
 using namespace std;
 
 int shellSort(vector<int> A,int n);

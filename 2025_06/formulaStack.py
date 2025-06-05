@@ -45,20 +45,22 @@ class MyStack:
             return
         return self.stack[self.top]
 
-# k = MyStack(12)
-# k.push("a")
-# k.push("b")
-# k.push("c")
-# k.push("d")
-# k.push("e")
-# k.push("f")
-# k.push("g")
-# k.push("h")
-# k.push("i")
+
+st = MyStack()
 
 
-def reverse(stack):
-    for i in range(0, stack.top + 1):
-        print(stack.pop(), end="")
+def formulaMatch(formula):
+    for i in formula:
+        if i == "(":
+            st.push(i)
+        if i == ")":
+            st.pop()
+        if st.isEmpty() and formula[-1] != i:
+            print("No Match")
+            return
+    if st.isEmpty():
+        print("Match formula")
+    else:
+        print("no Match")
 
 
