@@ -1,23 +1,36 @@
-// .vscode/launch.json
 {
-  "version": "0.2.0",
-  "configurations": [
-
-
-    {
-      "name": "Run C++",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${fileDirname}",
-      "environment": [],
-      "externalConsole": true,
-      "MIMode": "gdb",
-      "miDebuggerPath": "C:\\dev\\bin\\gdb.exe",  // MinGW 설치 경로에 따라 다를 수 있음
-      "preLaunchTask": "C/C++: g++.exe build active file",
-
-    }
-  ]
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run C++",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\dev\\bin\\gdb.exe",
+            "preLaunchTask": "C/C++: g++.exe build active file"
+        },
+        {
+            "name": "C/C++: clang++ 활성 파일 빌드 및 디버그",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": ["-g",
+                    "-std=c++14",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb",
+            "preLaunchTask": "C/C++: clang++ 활성 파일 빌드"
+        }
+    ]
 }
