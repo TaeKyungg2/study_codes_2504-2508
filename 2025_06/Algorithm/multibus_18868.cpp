@@ -1,63 +1,65 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 int main()
 {
-    int space=0,n=0;
+    int space = 0, n = 0;
     cin >> space >> n;
-    int planet[space][n];
-    int compare[space][n];
+    vector<vector<int>> planet(space, vector<int>(n));
+    vector<vector<int>> compare(space, vector<int>(n));
 
-    for(int j=0;j<space;j++){
-        for(int i=0;i<n;i++){
+    for (int j = 0; j < space; j++)
+    {
+        for (int i = 0; i < n; i++)
+        {
             cin >> planet[j][i];
-            if(i==0) {
-                compare[j][i]=0;
-                continue;
-            }
-            if(planet[j][i]<planet[j][i-1]){
-                compare[j][i]=1;
-            }
-            else if(planet[j][i]<planet[j][i-1]){
-                compare[j][i]=2;
-            }
-            else if(planet[j][i]==planet[j][i-1]){
-                compare[j][i]=3;
-            }
         }
     }
-    int zMin=0;
-    for(int i=0;i<space;i++){
-        for(int j=0;j<n;j++){
-            zMin=j;
-            for(int z=j;z<n;z++){
-                if(planet[i][zMin]>planet[i][z]){
-                    zMin=z;
+    int zMin = 0, temp = 0;
+    for (int i = 0; i < space; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            zMin = j;
+            for (int z = j + 1; z < n; z++)
+            {
+                if (planet[i][zMin] > planet[i][z])
+                {
+                    zMin = z;
                 }
             }
-            for(int v=zMin;v>=j;v--){
-                
-            }
+            compare[i][j] = zMin;
+            temp = planet[i][zMin];
+            planet[i][zMin] = planet[i][j];
+            planet[i][j] = temp;
         }
     }
-
-    int result=0;
-    bool match=false;
-    for(int i=0;i<space;i++){
-        for(int j=0;j<space;j++){
-            for(int z=0;z<n;z++){
-                if(i==j) break;
-                if(compare[i][z]!=compare[j][z]) break;
-                if(z==n-1) {
+    int result = 0;
+    bool match = false;
+    for (int i = 0; i < space; i++)
+    {
+        for (int j = 0; j < space; j++)
+        {
+            for (int z = 0; z < n; z++)
+            {
+                if (i == j)
+                    break;
+                if (compare[i][z] != compare[j][z])
+                    break;
+                if (z == n - 1)
+                {
                     result++;
-                    match=true;
+                    match = true;
                 }
-            if(match) {
-                match=false;
+            }
+            if (match)
+            {
+                match = false;
                 break;
             }
-            
         }
     }
-    cout << result;
+    cout << result/2;
+    return 0;
 }
