@@ -16,5 +16,3 @@ def formulaMatch(formula):
         print("Match formula")
     else:
         print("no Match")
-
-
