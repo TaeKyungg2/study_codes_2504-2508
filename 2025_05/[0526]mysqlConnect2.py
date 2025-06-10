@@ -18,8 +18,8 @@ for row in rows:
     print(row["empno"],row["ename"],row["sal"])
 
 sql="""
-     insert into emp(empno,ename,sal)
-     values(%s,%s,%s)
+        insert into emp(empno,ename,sal)
+        values(%s,%s,%s)
 """
 #cursor.execute(sql,(9000,'백승빈',6000))
 conn.commit() #connect instance should be committed to save changes
@@ -29,9 +29,9 @@ cursor.execute(sql)
 row=cursor.fetchone()
 print(row)
 sql="""
-     insert into emp(empno,ename,sal)
-     values(%s,%s,%s)
-"""
+        insert into emp(empno,ename,sal)
+        values(%s,%s,%s)
+    """
 cursor.execute (sql,(row['id'],'백승빈',6000))
 
 conn.commit() #connect instance should be committed to save changes
