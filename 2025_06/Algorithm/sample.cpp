@@ -9,6 +9,17 @@ int main()
     cout << 143 << endl;
     cin >> a;
     cout << a+1 << endl;
-    cout << 435 << endl;
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
