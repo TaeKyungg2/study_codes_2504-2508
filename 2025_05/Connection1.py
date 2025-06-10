@@ -39,10 +39,10 @@ sql = text("""
     values(:empno, :ename, :sal) 
 """)
 conn.execute( sql, [{"empno":10001, 
-                     "ename":"우즈2", 
-                     "sal":8000}, 
-                     {"empno":10002, 
-                     "ename":"우즈3", 
-                     "sal":8000}] )
+                        "ename":"우즈2", 
+                        "sal":8000}, 
+                        {"empno":10002, 
+                        "ename":"우즈3", 
+                        "sal":8000}] )
 conn.commit() 
 conn.close() 
