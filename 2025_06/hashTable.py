@@ -72,7 +72,7 @@ class Node:
         self.next=None
 
 if __name__=="__main__":
-    myHash=HashTable(5)
+    myHash=HashTable(20)
     myHash.hashInsert("apple","사과")
     myHash.hashInsert("banana","바나나")
     myHash.hashInsert("cherry","체리")
