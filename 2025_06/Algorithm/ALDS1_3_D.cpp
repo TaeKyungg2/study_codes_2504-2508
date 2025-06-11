@@ -2,39 +2,48 @@
 #include <vector>
 #include <stdio.h>
 #include <stack>
+#include <numeric>
 using namespace std;
 
 int main()
 {
     string g;
     cin >> g;
-    // stack<char> st;
-    int slope=0,depth=0;
-    vector<float> area;
+    stack<int> st;
+    vector<int> area;
+    int i = 0;
     area.push_back(0);
-    int high=0;
-    for(char x :g)
+    for (char x : g)
     {
-        if(x=='\\'){
-            depth+=1;
-            area.back()+=depth-0.5;
-        }
-        else if(x=='/'){
-            depth-=1;
-            area.back()+=depth+0.5;
-        }
-        else if(x=='_'){
-            area.back()+=depth;
-        }
-        if(depth==0){
+        if (area.back() != 0 && x == '\\')
+        {
             area.push_back(0);
         }
-        if(depth<0){
-            depth=0;
+        if (x == '\\')
+        {
+            st.push(i);
         }
+        else if (x == '/' && !st.empty())
+        {
+            int frontNum = st.top();
+            st.pop();
+            area.back() += i - frontNum;
+        }
+        i++;
     }
+    if (area.back() == 0)
+    {
+        area.pop_back();
+    }
+    int sum = accumulate(area.begin(), area.end(), 0);
+    cout << sum << endl;
     cout << area.size() << " ";
-    for(int i : area){
-        cout << i << " ";
+    for (auto it = area.begin(); it != area.end(); ++it)
+    {
+        cout << *it;
+        if (next(it) != area.end())
+        {
+            cout << " ";
+        }
     }
 }
