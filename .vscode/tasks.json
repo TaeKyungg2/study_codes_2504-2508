@@ -7,73 +7,56 @@
         "reveal": "always"
     },
     "tasks": [
-        //C++ 컴파일
         {
-            "label": "save and compile for C++",
-            "command": "g++",
-            "args": [
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+            "label": "build and run active file",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "dependsOn": [
+                "compile active file"
             ],
-            "group": "build",
-            //컴파일시 에러를 편집기에 반영
-            //참고:   https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
-            "problemMatcher": {
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    // The regular expression. 
-                    //Example to match: helloWorld.c:5:3: warning: implicit declaration of function 'prinft'
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
+            "windows": {
+                "command": "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            },
+            "osx": {
+                "command": "${fileDirname}/${fileBasenameNoExtension}"
+            },
+            "linux": {
+                "command": "${fileDirname}/${fileBasenameNoExtension}"
             }
         },
-        //C 컴파일
         {
-            "label": "save and compile for C",
-            "command": "gcc",
-            "args": [
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "group": "build",
-            //컴파일시 에러를 편집기에 반영
-            //참고:   https://code.visualstudio.com/docs/editor/tasks#_defining-a-problem-matcher
-            "problemMatcher": {
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    // The regular expression. 
-                    //Example to match: helloWorld.c:5:3: warning: implicit declaration of function 'prinft'
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
+            "label": "compile active file",
+            "type": "shell",
+            "problemMatcher": ["$gcc"],
+            "windows": {
+                "command": "cmd",
+                "args": [
+                    "/c",
+                    "if %fileExtname%==.c (gcc \"%file%\" -g -o \"%fileDirname%\\%fileBasenameNoExtension%.exe\") else (g++ \"%file%\" -g -o \"%fileDirname%\\%fileBasenameNoExtension%.exe\")"
+                ]
+            },
+            "osx": {
+                "command": "sh",
+                "args": [
+                    "-c",
+                    "if [ '${fileExtname}' = '.c' ]; then gcc '${file}' -g -o '${fileDirname}/${fileBasenameNoExtension}'; else clang++ '${file}' -g -o '${fileDirname}/${fileBasenameNoExtension}'; fi"
+                ]
+            },
+            "linux": {
+                "command": "sh",
+                "args": [
+                    "-c",
+                    "if [ '${fileExtname}' = '.c' ]; then gcc '${file}' -g -o '${fileDirname}/${fileBasenameNoExtension}'; else g++ '${file}' -g -o '${fileDirname}/${fileBasenameNoExtension}'; fi"
+                ]
             }
-        },
-        // // 바이너리 실행(Windows)
-        {
-            "label": "execute",
-            "command": "cmd",
-            "group": "test",
-            "args": [
-                "/C",
-                "${fileDirname}\\${fileBasenameNoExtension}"
-            ]
         }
     ]
 }

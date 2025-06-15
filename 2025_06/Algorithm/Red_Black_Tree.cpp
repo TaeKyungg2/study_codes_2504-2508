@@ -7,7 +7,6 @@ enum Color
 {
     BLACK,
     RED,
-    LEAF
 };
 struct Node
 {
@@ -20,15 +19,7 @@ struct Node
     {
         this->data = data;
         this->color = color;
-        if (color == RED || color == BLACK)
-        {
-            right = new Node(0, LEAF);
-            left = new Node(0, LEAF);
-            right->parent = this;
-            left->parent = this;
-            this->right = right;
-            this->left = left;
-        }
+        
     }
 };
 
@@ -45,46 +36,43 @@ public:
         bool isleft = false;
         while (true)
         {
-            if (data < trace->data)
-            {
+            if (data < trace->data){
                 temp = trace;
-                if (trace->color == LEAF)
-                {
+                if (trace->left->data==0){
                     isleft = true;
                     break;
                 }
                 trace = trace->left;
                 trace->parent = temp;
             }
-            else if (data > trace->data)
-            {
+            else if (data>trace->data){
                 temp = trace;
-                if (trace->color == LEAF)
-                {
+                if (trace->right->data==0){
                     isleft = false;
                     break;
                 }
                 trace = trace->right;
                 trace->parent = temp;
             }
-            else
-            {
+            else{
                 cout << "Data already exists" << endl;
                 return;
             }
         }
         Node *new_node = new Node(data, RED);
-        if (isleft)
-        {
+        if (isleft){
             temp->left = new_node;
         }
-        else
-        {
+        else{
             temp->right = new_node;
         }
         new_node->parent = temp;
-        if (temp->color == RED)
-        {
+        new_node->left = new Node(0, BLACK);
+        new_node->right = new Node(0, BLACK);
+        new_node->left->parent = new_node;
+        new_node->right->parent = new_node;
+
+        if (temp->color == RED){
             double_red(*new_node);
         }
     }
@@ -106,7 +94,7 @@ public:
         {
             return {a, b, c};
         }
-        else if (c->data < a->data && a->data < b->data)
+        else // if (c->data < a->data && a->data < b->data)
         {
             return {b, a, c};
         }
@@ -157,7 +145,7 @@ public:
         while (true)
         {
             cout << i << "Node" << trace->color << trace->data << endl;
-            if (trace->color == LEAF)
+            if (trace->data==0)
             {
                 cout << "Data not found" << endl;
                 return;
@@ -177,6 +165,16 @@ public:
             i++;
         }
     }
+    void all_print_tree(Node *trace)
+    {
+        cout << "Node Data" << trace->data << " Color " << trace->color << endl;
+        if (trace->data==0)
+        {
+            return;
+        }
+        all_print_tree(trace->left);
+        all_print_tree(trace->right);
+    }
 };
 
 int main()
@@ -186,10 +184,18 @@ int main()
     cin >> data;
     int cmd = 0;
     Red_Black_Tree RedBlackTree = Red_Black_Tree(data);
+    // for (int i = 1; i < 11; i++)
+    // {
+    //     RedBlackTree.insert(i);
+    // }
     while (true)
     {
-        cout << "0: insert, 1: find, 2: exit" << endl;
+        cout << "0: insert, 1: find, 2: exit 3: print" << endl;
         cin >> cmd;
+        if (cin.fail()) {
+            cout << "Input error! Exiting." << endl;
+            break;
+        }
         if (cmd == 0)
         {
             cin >> data;
@@ -204,6 +210,11 @@ int main()
         {
             break;
         }
+        else if (cmd == 3)
+        {
+            RedBlackTree.all_print_tree(&RedBlackTree.root);
+        }
     }
+    cout << "Exiting..." << endl;
     return 0;
 }
