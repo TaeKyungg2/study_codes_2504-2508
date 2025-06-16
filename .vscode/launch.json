@@ -24,7 +24,7 @@
             "cwd": "${fileDirname}",
             "environment": [],
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/mingw64/bin/gdb.exe",
+            "miDebuggerPath": "C:/dev/bin/gdb.exe",
             "preLaunchTask": "build and run active file",
             "externalConsole": true
         }

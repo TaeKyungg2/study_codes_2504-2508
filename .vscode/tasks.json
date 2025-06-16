@@ -10,10 +10,6 @@
         {
             "label": "build and run active file",
             "type": "shell",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -30,6 +26,10 @@
             },
             "linux": {
                 "command": "${fileDirname}/${fileBasenameNoExtension}"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
             }
         },
         {
@@ -37,10 +37,12 @@
             "type": "shell",
             "problemMatcher": ["$gcc"],
             "windows": {
-                "command": "cmd",
+                "command": "g++",
                 "args": [
-                    "/c",
-                    "if %fileExtname%==.c (gcc \"%file%\" -g -o \"%fileDirname%\\%fileBasenameNoExtension%.exe\") else (g++ \"%file%\" -g -o \"%fileDirname%\\%fileBasenameNoExtension%.exe\")"
+                    "${file}",
+                    "-g",
+                    "-o",
+                    "${fileDirname}\\${fileBasenameNoExtension}.exe"
                 ]
             },
             "osx": {
