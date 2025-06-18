@@ -67,51 +67,53 @@ class Tree:
 
 from collections import deque
 
-n = int(input())
-nodes_id = deque()
-IsRoot=set()
-Del=set()
-for i in range(n):
-    temp=list(map(int, input().split()))
-    IsRoot.add(temp[0])
-    Del.add(temp[1])
-    Del.add(temp[2])
-    IsRoot-=Del
-    nodes_id.append(temp)
-big=max(nodes_id,key=lambda x:x[0])[0]
-tree = Tree(big+1)
-root=IsRoot.pop()
-tree.nodes[root]=Node(root)
-tree.root=tree.nodes[root]
-
-while True:
-    node = Node(nodes_id[0][0])
-    if node in tree.nodes:
-        if nodes_id[0][1] != -1:
-            tree.nodes[node.id].degree += 1
-            tree.nodes[node.id].left = Node(nodes_id[0][1])
-            tree.nodes[nodes_id[0][1]] = tree.nodes[node.id].left
-            tree.nodes[node.id].left.parent = tree.nodes[node.id]
-        if nodes_id[0][2] != -1:
-            tree.nodes[node.id].degree += 1
-            tree.nodes[node.id].right = Node(nodes_id[0][2])
-            tree.nodes[nodes_id[0][2]] = tree.nodes[node.id].right
-            tree.nodes[node.id].right.parent = tree.nodes[node.id]
-        nodes_id.popleft()
-    else :
-        this_node=nodes_id.popleft()
-        nodes_id.append(this_node)
-    if len(nodes_id) == 0:
-        break
-
-tree.set_depth(tree.root, 0)
-tree.set_height(tree.root)
-for node in tree.nodes:
-    if node == None:
-        continue
-    tree.set_type(node)
-for node in tree.nodes:
-    if node == None:
-        continue
-    tree.set_sibling(node)
-tree.print_tree()
+def build_tree():
+    n = int(input())
+    nodes_id = deque()
+    IsRoot=set()
+    Del=set()
+    for i in range(n):
+        temp=list(map(int, input().split()))
+        IsRoot.add(temp[0])
+        Del.add(temp[1])
+        Del.add(temp[2])
+        IsRoot-=Del
+        nodes_id.append(temp)
+    big=max(nodes_id,key=lambda x:x[0])[0]
+    tree = Tree(big+1)
+    root=IsRoot.pop()
+    tree.nodes[root]=Node(root)
+    tree.root=tree.nodes[root]
+    while True:
+        node = Node(nodes_id[0][0])
+        if node in tree.nodes:
+            if nodes_id[0][1] != -1:
+                tree.nodes[node.id].degree += 1
+                tree.nodes[node.id].left = Node(nodes_id[0][1])
+                tree.nodes[nodes_id[0][1]] = tree.nodes[node.id].left
+                tree.nodes[node.id].left.parent = tree.nodes[node.id]
+            if nodes_id[0][2] != -1:
+                tree.nodes[node.id].degree += 1
+                tree.nodes[node.id].right = Node(nodes_id[0][2])
+                tree.nodes[nodes_id[0][2]] = tree.nodes[node.id].right
+                tree.nodes[node.id].right.parent = tree.nodes[node.id]
+            nodes_id.popleft()
+        else :
+            this_node=nodes_id.popleft()
+            nodes_id.append(this_node)
+        if len(nodes_id) == 0:
+            break
+    return tree
+if __name__ == "__main__":
+    tree=build_tree()
+    tree.set_depth(tree.root, 0)
+    tree.set_height(tree.root)
+    for node in tree.nodes:
+        if node == None:
+            continue
+        tree.set_type(node)
+    for node in tree.nodes:
+        if node == None:
+            continue
+        tree.set_sibling(node)
+    tree.print_tree()

@@ -7,4 +7,4 @@ j=5
 print(id(i),id(j))
 
 i=10
-print(i,j)
+print(i,j,end="")
