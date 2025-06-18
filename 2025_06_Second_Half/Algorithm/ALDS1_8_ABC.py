@@ -29,6 +29,7 @@ class BinarySearchTree:
                     break
                 current=current.right
             else : return
+            
     def find(self,key):
         current=self.root
         while current is not None:
@@ -60,17 +61,18 @@ class BinarySearchTree:
             find_node.key=find_node.right.key
             self.delete(find_node.right.key)
 
-
 def print_preorder(node):
     if node == None:return
     print("",node.key, end="")
     print_preorder(node.left)
     print_preorder(node.right)
+
 def print_inorder(node):
     if node == None:return
     print_inorder(node.left)
     print("",node.key, end="")
     print_inorder(node.right)
+
 if __name__ == "__main__":
     n=int(input())
     tree=BinarySearchTree()

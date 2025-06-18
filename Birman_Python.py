@@ -7,10 +7,7 @@ j=5
 print(id(i),id(j))
 
 i=10
-<<<<<<< HEAD
 print(i,j,end="")
-=======
 print(i,j)
 
 print("im here")
->>>>>>> bbe0232 (asdf)
