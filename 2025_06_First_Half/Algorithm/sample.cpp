@@ -1,14 +1,8 @@
 #include <iostream>
 #include <vector>
-#include <stdio.h>
-using namespace std;
+#include <iterator> // for std::size
 
-int main()
-{
-
-    int a = 0;
-    cout << 143 << endl;
-    cin >> a;
-    cout << a + 1 << endl;
-    return 0;
+int main() {
+    std::vector<int> v = {1,2,3};
+    std::cout << "size:  " << v.size() << "\n";
 }

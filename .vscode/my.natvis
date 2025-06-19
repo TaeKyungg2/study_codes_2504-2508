@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+    <Type Name="std::vector&lt;*&gt;">
+        <DisplayString>{{size = {_Mypair._Myval2._Mysize}}}</DisplayString>
+        <Expand>
+            <Item Name="[size]">_Mypair._Myval2._Mysize</Item>
+            <Item Name="[capacity]">_Mypair._Myval2._Mysize</Item>
+            <ArrayItems>
+                <Size>_Mypair._Myval2._Mysize</Size>
+                <ValuePointer>_Mypair._Myval2._Myfirst</ValuePointer>
+            </ArrayItems>
+        </Expand>
+    </Type>
+</AutoVisualizer> 

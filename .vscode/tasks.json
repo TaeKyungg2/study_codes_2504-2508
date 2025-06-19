@@ -14,7 +14,9 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": [
+                "$gcc"
+            ],
             "dependsOn": [
                 "compile active file"
             ],
@@ -35,7 +37,9 @@
         {
             "label": "compile active file",
             "type": "shell",
-            "problemMatcher": ["$gcc"],
+            "problemMatcher": [
+                "$gcc"
+            ],
             "windows": {
                 "command": "g++",
                 "args": [
