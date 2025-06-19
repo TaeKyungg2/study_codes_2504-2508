@@ -13,8 +13,6 @@ def dynamic(fir,sec):
             elif a==0 : dp[a][b]=dp[a][b-1]
             elif b==0 : dp[a][b]=dp[a-1][b]
             else : dp[a][b]=dp[a-1][b] if dp[a-1][b]>dp[a][b-1] else dp[a][b-1]
-
-
             b+=1
         a+=1
     result.append(dp[-1][-1])
