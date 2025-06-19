@@ -41,5 +41,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "*.tcc": "cpp"
+    },
+    "fiveServer.config": {
+        "root": "2025_06_Second_Half/Web_Study"
     }
 }

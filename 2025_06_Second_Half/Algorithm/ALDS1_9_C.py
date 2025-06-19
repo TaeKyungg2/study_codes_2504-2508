@@ -6,8 +6,10 @@ class Heap:
     def insert(self,key):
         self.nums.append(key)
         index=len(self.nums)-1
-        while index>1 and self.nums[index//2]<self.nums[index]:
-            self.nums[index//2],self.nums[index]=self.nums[index],self.nums[index//2]
+        while index>1 and \
+            self.nums[index//2]<self.nums[index]:
+            self.nums[index//2],self.nums[index]\
+                =self.nums[index],self.nums[index//2]
             index=index//2
         
     def extract_max(self):
@@ -19,11 +21,14 @@ class Heap:
         if index*2>=len(self.nums):
             self.nums[index]=-1
             return
-        if index*2+1==len(self.nums) or self.nums[index*2]>self.nums[index*2+1]:
-            self.nums[index],self.nums[index*2]=self.nums[index*2],self.nums[index]
+        if index*2+1==len(self.nums) or \
+            self.nums[index*2]>self.nums[index*2+1]:
+            self.nums[index],self.nums[index*2]\
+                =self.nums[index*2],self.nums[index]
             self.change_child(index*2)
         else:
-            self.nums[index],self.nums[index*2+1]=self.nums[index*2+1],self.nums[index]
+            self.nums[index],self.nums[index*2+1]\
+                =self.nums[index*2+1],self.nums[index]
             self.change_child(index*2+1)
     
 if __name__ == "__main__":

@@ -5,13 +5,15 @@ using namespace std;
 
 bool isCan(vector<int> A, int m, int i)
 {
+    
     if (m == 0)
         return true;
     if (m < 0)
         return false;
     if (i >= A.size())
         return false;
-    return isCan(A, m - A[i], i + 1) || isCan(A, m, i + 1);
+    return isCan(A, m - A[i], i + 1) ||
+            isCan(A, m, i + 1);
 }
 
 int main()

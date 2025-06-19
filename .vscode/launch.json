@@ -27,6 +27,12 @@
             "miDebuggerPath": "C:/dev/bin/gdb.exe",
             "preLaunchTask": "build and run active file",
             "externalConsole": true
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Open HTML in Chrome",
+            "file": "${file}"
         }
     ],
     "saveAllBeforeRun": true
