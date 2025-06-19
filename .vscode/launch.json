@@ -1,8 +1,7 @@
 {
-    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug C/C++ (macOS)",
+            "name": "C/C++: clang++ Build and Debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -10,24 +9,10 @@
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
+            "externalConsole": true,
             "MIMode": "lldb",
-            "preLaunchTask": "build and run active file",
-            "externalConsole": true
-        },
-        {
-            "name": "Debug C/C++ (Windows)",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "MIMode": "gdb",
-            "miDebuggerPath": "C:/dev/bin/gdb.exe",
-            "preLaunchTask": "compile active file",
-            "externalConsole": true
-        },
+            "preLaunchTask": "make the cat run C/C++: clang++ "
+        }
     ],
-    "saveAllBeforeRun": true
+    "version": "2.0.0"
 }
