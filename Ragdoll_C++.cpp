@@ -9,4 +9,5 @@ int main()
     cin >> n;
     cout << n;
     return 0;
+    // string is not int 
 }
