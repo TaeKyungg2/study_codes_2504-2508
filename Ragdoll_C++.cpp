@@ -5,6 +5,8 @@
 using namespace std;
 int main()
 {
-    cout << "Hasdft";
+    int n;
+    cin >> n;
+    cout << n;
     return 0;
 }
