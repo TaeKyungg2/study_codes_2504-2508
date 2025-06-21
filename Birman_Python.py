@@ -1,6 +1,3 @@
 
-
-a=input().split()
-print(a)
-for i in a:
-    print(i)
+a=[1,2]
+print(a[2:])
