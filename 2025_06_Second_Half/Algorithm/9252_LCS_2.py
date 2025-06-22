@@ -22,7 +22,7 @@ for a in range(1,len(fir)):
     for b in range(1,len(sec)):
         if fir[a]==sec[b]:
             p=point(a,b)
-            for i in hp:
+            for i in ch:
                 if i<p:ch.append(fir[a])
 
 

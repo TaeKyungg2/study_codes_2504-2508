@@ -21,9 +21,11 @@ def dfs(node,f):
     flag=False
     for i in range(len(friend[node])):
         if visit[i]==True : return
-        else : visit[i]=True
-        if friend[node][i]==f:return True
-        else : flag=flag or dfs(friend[node][i],f)
+        visit[i]=True
+        if i==f:return True
+        flag = dfs(friend[node][i],f)
+        if flag:return True
+        else : return False
     return flag
 fri,num=NRowToInt2()
 query=NRowToInt()
