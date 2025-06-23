@@ -9,20 +9,15 @@
 # f=시그마 1~len-1 + 시그마(시그마 1~len-1)
 
 # - 가 있어야 괄호 의미가 있다.
-dict={}
-class Pair():
-    def __init__(self,fir,two):
-        self.one=fir
-        self.two=two
 class Pairs():
     def __init__(self):
-        self.p=[]
+        self.p=set()
 def solution(arr):
     answer = -1
     def choose(o,t,pairs):
         if t-o<2:
             return
-        pairs.p.append(Pair(o,t))
+        pairs.p.append((o,t))
         if pairs in dict:
             return
         for i in range(o+1,t):
@@ -33,5 +28,7 @@ def solution(arr):
     choose(1,len(arr),pairs)
 
     return answer
+cal={}
 def calcul(str,pairs):
-    cal.insert()
+    if pairs in cal : return cal[pairs]
+    
