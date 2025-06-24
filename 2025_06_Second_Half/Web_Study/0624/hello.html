@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../js/myscript.js"></script>
+</head>
+<body>
+    <body>
+        <h1>event handler</h1>
+        <p> in computer, all of movement is event.
+            example,click, mouseover,keyboard,etc.
+            event - function : event handler </p>
+        <button type="button" onclick="goClick()">event1</button>
+        <button type="button" id="btnPress">event2</button>
+            <script>
+                function goClick(){
+                    alert('event1');
+                }
+                let btnPress=document.getElementById('btnPress');
+                // get html tag
+                btnPress.addEventListener("click",()=>{
+                    alert("event2 22");
+                });
+            </script>
+        
+    </body>
+</html>

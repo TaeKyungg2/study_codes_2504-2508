@@ -12,23 +12,43 @@
 class Pairs():
     def __init__(self):
         self.p=set()
+
 def solution(arr):
     answer = -1
     def choose(o,t,pairs):
         if t-o<2:
             return
         pairs.p.append((o,t))
-        if pairs in dict:
-            return
         for i in range(o+1,t):
             choose(i,t,pairs)
-
             
     pairs=Pairs()
     choose(1,len(arr),pairs)
+    def calcul(pairs,arr):
+        expr=arr.copy()
+        for i in  pairs.p:
+            add_paren(i,expr)
+            c=expr[2*i[0]-2:2*i[1]-1]
+            c_str=''.join(c)
+            if c_str in cal: return cal[c_str]
+            result=eval(c_str)
+            cal[c_str]=result
+            expr=next_calc(expr,i,result)
+            if len(expr)==1:
+                return expr[0]
+        return calcul(pairs,expr)
+
+    def add_paren(tu,arr):
+        arr[2*tu[0]-2]+='('
+        arr[2*tu[1]-1]+=')'
+        return arr
+
+    def next_calc(arr,tu,result):
+        arr[2*tu[0]-2]=arr[2*tu[0]-2].split(' ')[0]
+        arr[2*tu[1]-1]=result
+        for i in range(2*tu[0]-1,2*tu[1]-1):
+            arr[i]= ''
+        return arr
 
     return answer
 cal={}
-def calcul(str,pairs):
-    if pairs in cal : return cal[pairs]
-    
