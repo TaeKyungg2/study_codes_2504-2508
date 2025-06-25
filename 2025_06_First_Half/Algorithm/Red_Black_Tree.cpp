@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <array>
 using namespace std;
+const int INF= 2147483647;
 enum Color
 {
     BLACK,
@@ -10,7 +11,7 @@ enum Color
 };
 struct Node
 {
-    int data = 0;
+    int data = INF;
     Node *parent = NULL;
     Node *left = NULL;
     Node *right = NULL;
@@ -33,12 +34,12 @@ public:
     {
         Node *trace = &this->root;
         Node *temp;
-        bool isleft = false;
+        bool isleft;
         while (true)
         {
+            temp = trace;
             if (data < trace->data){
-                temp = trace;
-                if (trace->left->data==0){
+                if (trace->left->data==INF){
                     isleft = true;
                     break;
                 }
@@ -46,18 +47,18 @@ public:
                 trace->parent = temp;
             }
             else if (data>trace->data){
-                temp = trace;
-                if (trace->right->data==0){
+                if (trace->right->data==INF){
                     isleft = false;
                     break;
                 }
                 trace = trace->right;
                 trace->parent = temp;
             }
-            else{
+            else if(trace->data=data){
                 cout << "Data already exists" << endl;
                 return;
             }
+            
         }
         Node *new_node = new Node(data, RED);
         if (isleft){
