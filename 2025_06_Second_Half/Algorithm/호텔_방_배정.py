@@ -1,10 +1,13 @@
+import math
 def solution(k, room_number):
     answer = []
     mid=k//2
     tree=BinarySearchTree()
     tree.insert(Node(mid))
-    def orderInsert(node):
-        pass
+    def MakeEmptyTree(node,k):
+        tree=BinarySearchTree()
+        height=int(math.log2(k+1))
+
 
 
     return answer
@@ -70,3 +73,8 @@ class BinarySearchTree:
         else:
             find_node.key=find_node.right.key
             self.delete(find_node.right.key)
+def print_inorder(node):
+    if node == None:return
+    print_inorder(node.left)
+    print("",node.key, end="")
+    print_inorder(node.right)
