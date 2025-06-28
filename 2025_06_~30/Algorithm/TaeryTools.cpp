@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>
 #include <sstream>
 using namespace std;
 vector<int> RowToInts() {

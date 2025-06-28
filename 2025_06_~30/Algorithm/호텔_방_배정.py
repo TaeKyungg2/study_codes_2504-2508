@@ -1,5 +1,4 @@
 from math import log2,ceil
-from xml.etree.ElementTree import TreeBuilder
 
 class Node:
     def __init__(self,key):
@@ -7,13 +6,12 @@ class Node:
         self.left=None
         self.right=None
         self.parent=None
+        self.height=None
 def print_inorder(node):
     if node == None:return
     print_inorder(node.left)
     print("",node.key, end="")
     print_inorder(node.right)
-
-
 
 class BinarySearchTree:
     def __init__(self,height):
@@ -40,17 +38,22 @@ class BinarySearchTree:
             find_node.key=find_node.right.key
             self.delete(find_node.right.key)
         return find_node.key
-def MakeEmptyChild(node,height):
-    if height==1:return
+    
+def MakeEmptyChild(node):
+    if node.height==1:return
     node.left=Node(None)
     node.left.parent=node
+    node.left.height=node.left.parent.height-1
     node.right=Node(None)
     node.right.parent=node
-    MakeEmptyChild(node.left,height-1)
-    MakeEmptyChild(node.right,height-1)
+    node.right.height=node.right.parent.height-1
+    MakeEmptyChild(node.left)
+    MakeEmptyChild(node.right)
+
 def findNext(node,key):
     if node.key<key:return node
     else: findNext(node.parent,key)
+
 def find(tree,key):
     current=tree.root
     while current is not None:
@@ -70,19 +73,18 @@ def BFS(node):
     global qu
     if node==None:return
     qu.put(node)
-    n=1
     while not qu.empty:
         now=qu.get()
-        print(f'{n} : ',node.key,end=' ')
+        print(f'{now.depth} : ',now.key,end=' ')
         qu.put(now.left)
         qu.put(now.right)
-        n+=1
 def solution(k, room_number):
     answer = []
     height=ceil(log2(k+1))
     tree=BinarySearchTree(height)
     tree.root=Node(None)
-    MakeEmptyChild(tree.root,height)
+    tree.root.height=height
+    MakeEmptyChild(tree.root)
     def set_inorder(node):
         global n
         if node == None:return
@@ -90,6 +92,7 @@ def solution(k, room_number):
         n+=1
         if n>=k+1:return
         node.key=n
+        node.depth=node.parent.depth+1
         set_inorder(node.right)
     set_inorder(tree.root)
     BFS(tree.root)
