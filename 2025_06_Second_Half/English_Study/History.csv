@@ -1,0 +1,289 @@
+﻿"Google","English","useful.","Korean","유용한.
+
+형용사:
+    유능한 (competent, capable, able, consummate, good, useful)
+    쓸모있는 (useful, serviceable, friendly)"
+"Google","English","ambiguous","Korean","모호한
+
+형용사:
+    모호한 (ambiguous, dubious, fluffy)
+    두 가지 뜻으로 해석할 수 있는 (ambiguous)"
+"Google","English","Proposal","Korean","제안
+
+명사:
+    신청 (application, subscription, proposal, offering, indent)
+    안 (within, proposal, lining, back, interior, boudoir)
+    제창 (proposal, singing in unison)
+    발기 (erection, catalog, proposal, fury, aura, catalogue)"
+"Google","English","If a file’s date is not clear, it will be placed in the most likely half based on its filename (e.g., [0526]mysqlConnect.py goes to 2025_05_2).","Korean","파일의 날짜가 명확하지 않으면 파일 이름을 기준으로 가장 가능성이 높은 절반에 배치됩니다 (예 : [0526] mysqlconnect.py는 2025_05_2로갑니다)."
+"Google","English","Files and folders from 2025_05 and 2025_06 will be moved into the appropriate [topic]/2025_MM_1 or [topic]/2025_MM_2 based on their subject and (if possible) the date.","Korean","2025_05 및 2025_06의 파일 및 폴더는 주제에 따라 해당 [주제]/2025_mm_1 또는 [주제]/2025_mm_2로 이동합니다."
+"Google","English","If a file’s date is ambiguous, should I ask you or make a best guess?","Korean","파일의 날짜가 모호한 경우, 내가 당신에게 물어봐야합니까, 아니면 최선을 다해야합니까?"
+"Google","English","Should I create a mapping file (like a README) to track where things moved?","Korean","readme와 같은 매핑 파일을 만들어서 물건이 이동 한 위치를 추적해야합니까?"
+"Google","English","adjustments","Korean","조정
+
+명사:
+    조정 (adjustment, mediation, alignment, modulation, rowing, fixing)
+    조절 (adjustment, conditioning, setting)
+    수정 (crystal, adjustment, retouch, rock crystal, semination, pebble)
+    정산 (adjustment, exact calculation)
+    정산서 (statement of accounts, adjustment)"
+"Google","English","I will create the topic and month/half subfolders using a different approach, ensuring they are created in the correct location.","Korean","다른 접근 방식을 사용하여 주제와 월/반 하위 폴더를 만들어 올바른 위치에서 생성되도록합니다."
+"Google","English","Once the folders are confirmed, I will proceed to move files into the new structure.","Korean","폴더가 확인되면 파일을 새로운 구조로 이동합니다."
+"Google","English","Would you like me to continue and fix the folder creation, or do you want to manually create the folders and let me know when done?","Korean","폴더 생성을 계속하고 수정하기를 원하거나 폴더를 수동으로 만들고 완료되면 알려 주시겠습니까?"
+"Google","English","Disclaimer
+Auto-run runs any commands based on the allowlist and denylist you set. Be cautious of potential prompt injection risks from external sources and use at your own risk.","Korean","부인 성명
+자동 실행은 설정 한 허가 목록과 데닐리스트를 기반으로 모든 명령을 실행합니다. 외부 소스로부터 잠재적 인 신속한 주입 위험에주의를 기울이고 자신의 위험에 따라 사용하십시오."
+"Google","English","All topic and month/half subfolders are now being created correctly in your Study_codes directory. The next step is to move your files into these new folders according to topic and month (split in half), using best guesses for ambiguous cases.
+Would you like me to proceed with moving the files and folders into their new locations? If yes, I’ll start with the most clear cases (like Algorithm and Address) and then handle the rest.","Korean","모든 주제와 월/반 하위 폴더는 이제 study_codes 디렉토리에서 올바르게 생성되고 있습니다. 다음 단계는 모호한 케이스에 대한 최상의 추측을 사용하여 주제와 월 (절반으로 분할)에 따라 파일을이 새로운 폴더로 이동하는 것입니다.
+파일과 폴더를 새 위치로 옮기기를 원하십니까? 그렇다면 가장 명확한 사례 (알고리즘 및 주소와 같은)부터 시작한 다음 나머지를 처리하겠습니다."
+"Google","English","What’s done so far","Korean","지금까지 한 일"
+"Google","English","I will continue moving any remaining files and folders (including other months, topics, or ambiguous files) into the new structure.","Korean","나머지 파일과 폴더 (다른 달, 주제 또는 모호한 파일 포함)를 새로운 구조로 계속 이동합니다."
+"Google","English","If you have any special requests for specific files or want to check the new structure, let me know!","Korean","특정 파일에 대한 특별한 요청이 있거나 새 구조를 확인하려면 알려주십시오!"
+"Google","English","Would you like me to continue with the rest, or do you want to review the progress so far?","Korean","나머지를 계속하고 싶습니까, 아니면 지금까지 진행 상황을 검토하고 싶습니까?"
+"Google","English","The .git directory was not deleted (it’s usually important for version control).","Korean",".git 디렉토리는 삭제되지 않았습니다 (일반적으로 버전 제어에 중요합니다)."
+"Google","English","Files were placed in the most likely half of the month based on their names or best guess if ambiguous","Korean","파일은 이름이나 모호한 경우 가장 좋은 추측에 따라 달의 가장 큰 절반에 배치되었습니다."
+"Google","English","All files and folders have been moved into topic-based directories (Algorithm, Address, Score, SQL, Board, StudyEng), each with subfolders for each month split in half (e.g., 2025_05_1, 2025_05_2, 2025_06_1, 2025_06_2).","Korean","모든 파일과 폴더는 주제 기반 디렉토리 (알고리즘, 주소, 스코어, SQL, 보드, 연구원)로 이동되었으며, 매월 하위 폴더가 절반으로 분할되었습니다 (예 : 2025_05_1, 2025_05_2, 2025_06_1, 2025_06_2)."
+"Google","English","You now have a clean, topic- and time-organized structure!
+If you want to move any files differently or need a summary of where something went, just let me know!","Korean","이제 깨끗하고 주제 및 시간 조직화 된 구조가 있습니다!
+파일을 다르게 이동시키고 싶거나 무언가가 어디로 갔는지 요약해야한다면 알려주세요!"
+"Google","English","Thank you for your feedback and for pointing this out.
+Deleting .git files or folders is generally not appropriate when organizing a project folder, unless you specifically request to remove version control. The .git directory is essential for Git version control, as it contains all the repository’s history and configuration. Removing it will disconnect your project from its Git history and tracking.
+If you noticed .git files or folders being deleted during a folder organization task, that was a mistake. By default, any folder organization or cleanup should always preserve .git and other important configuration or hidden files unless you explicitly ask for their removal.
+If you have a specific folder organization request, please clarify your requirements (e.g., which files/folders to move, rename, or delete), and I will ensure .git and other critical files are preserved unless you instruct otherwise.","Korean","귀하의 의견과이를 지적 해 주셔서 감사합니다.
+버전 제어를 구체적으로 제거하지 않는 한 .git 파일 또는 폴더 삭제는 프로젝트 폴더를 구성 할 때 일반적으로 적절하지 않습니다. .git 디렉토리는 모든 저장소의 기록 및 구성이 포함되어 있으므로 GIT 버전 제어에 필수적입니다. 제거하면 프로젝트가 GIT 기록 및 추적에서 분리됩니다.
+폴더 조직 작업 중에 .git 파일 또는 폴더가 삭제되는 것을 발견하면 실수였습니다. 기본적으로 모든 폴더 조직 또는 정리는 제거를 명시 적으로 요구하지 않는 한 항상 .git 및 기타 중요한 구성 또는 숨겨진 파일을 보존해야합니다.
+특정 폴더 조직 요청이있는 경우 요구 사항 (예 : 이동, 이름 변경 또는 삭제할 파일/폴더)을 명확히하십시오. 그렇지 않으면 .git 및 기타 중요한 파일이 달리 지시하지 않는 한 보존되도록합니다."
+"Google","English","This visualizations are meant to be fairly self- explainitory","Korean","이 시각화는 상당히 자기 설명입니다"
+"Google","English","Algorithm Specific Controls
+(Will change depending upon algorithm)","Korean","알고리즘 별 컨트롤
+(알고리즘에 따라 변경됩니다)"
+"Google","English","Linear Probing","Korean","선형 프로브"
+"Google","English","Radix","Korean","어근
+
+명사:
+    어근 (radix, root of a word)
+    근원 (source, mother, radix, nerve, nidus, well)"
+"Google","English","nuanced","Korean","미묘한"
+"Google","English","In C++, the concept of NULL is a bit nuanced and depends on the type:","Korean","C ++에서 NULL의 개념은 약간 미묘한 차이이며 다음 유형에 따라 다릅니다."
+"Google","English","Represent","Korean","대표하다
+
+동사:
+    말하다 (talk, speak, say, tell, remark, state)
+    표현하다 (express, represent, render)
+    묘사하다 (depict, represent, portray, describe, depicture, character)
+    대리하다 (represent)
+    대표하다 (represent)
+    공연하다 (perform, produce, represent)
+    연극을 공연하다 (represent)
+    설명하다 (explain, illustrate, account for, explicate, demonstrate, treat)
+    ...라고 말하다 (represent)
+    다시 선사하다 (represent)
+    재성연하다 (represent)
+    연극 따위를 재성연하다 (represent)
+    표시하다 (express, represent, denote, display, demonstrate, record)"
+"Google","English","Primitive types","Korean","원시 유형"
+"Google","Hindi","complite","Korean","홍보"
+"Google","English","Selected conda environment was successfully activated, even though ""(base)"" indicator may not be present in the terminal prompt. Learn more.","Korean","""(Base)""표시기는 터미널 프롬프트에 존재하지 않을 수 있지만 선택된 콘다 환경이 성공적으로 활성화되었습니다. 자세히 알아보십시오."
+"Google","English","Draft and refine on the spot
+Make it shorter. Add an emoji. Translate to kindergartener. ChatGPT can do it all, right on the canvas.","Korean","그 자리에서 초안을 세우고 개선하십시오
+더 짧게 만드십시오. 이모티콘을 추가하십시오. 유치원으로 번역하십시오. Chatgpt는 캔버스에서 모든 것을 할 수 있습니다."
+"Google","English","Get","Korean","얻다
+
+명사:
+    도망 (escape, runaway, get, bolting, bunk)
+    새끼 (young, bastard, pup, kid, guy, poult)
+    어린애 (child, sprat, chicken, get)
+    이익 (profit, benefit, avail, account, making, lucre)
+    어려운 공을 받아치기 (get)
+
+동사:
+    받다 (undergo, receive, get, take, catch, feel)
+    얻다 (get, gain, obtain, win, acquire, make)
+    오다 (come, get)
+    잡다 (grapple, take, seize, catch, get, grasp)
+    가지고 있다 (get, rejoice)
+    대다 (apply, touch, furnish, tell, get)
+    알다 (know, learn, understand, find, get, see)
+    이르다 (say, get, be early, lead to, let know, go down)
+    못 쓰게 만들다 (cook, get)
+    이르게 하다 (bring, put, swear, get)
+    식사 하다 (get)
+    입수하다 (get, find)
+    낭패케 하다 (get)
+    이해하다 (understand, comprehend, catch, see get, make out, figure out)
+    잘 재현하다 (get)
+    ...에 주목하다 (note, dig, get)
+    열중하다 (devote oneself, enthuse, wrap, get)
+    ...을 압도하다 (get)
+    ...을 감동시키다 (get)
+    ...하게 하다 (bluff, cause, get)
+    ...시키다 (let, get)
+    ...당하다 (get)
+    ...해치우다 (get)
+    ...하지 않으면 안 되다 (get, have)
+    ...로 되다 (grow, get)
+    ...하기 시작하다 (begin, get, make)
+    ...하게 되다 (get)
+    그럭저럭 ...하다 (get)
+    빨리 가버리다 (get)"
+"Google","English","Allocation","Korean","배당
+
+명사:
+    배당 (allocation, portion, rake-off)
+    배급 (rationing, allocation, issuance)
+    배당액 (allocation)"
+"Google","French","informations","Korean","정보"
+"Google","English","Background agents run in the cloud, allowing agents to asynchronously work in your codebase.
+There are some important security implications. Read our documentation to learn more.","Korean","백그라운드 에이전트는 클라우드에서 실행되므로 에이전트가 코드베이스에서 비동기 적으로 작동 할 수 있습니다.
+몇 가지 중요한 보안 영향이 있습니다. 자세한 내용은 문서를 읽으십시오."
+"Google","English","greater","Korean","보다 큰
+
+형용사:
+    큰 (large, big, great, gross, towering, goodly)
+    멋진 (great, splendid, handsome, slick, grand, famous)
+    탁월한 (great, transcendent, transcendental, egregious)
+    숭고한 (sublime, spiritual, great, winged)
+    두드러진 (outstanding, marked, distinguished, banner, emphatic, standout)
+    능숙한 (handy, slick, great, hand)
+    즐겨 쓰는 (great)
+    다수의의 (great)
+    다량의 (great)
+    신분이 귀한 (great)
+    태생이 귀한 (great)
+    ...대왕 (great)
+    ...대제 (great)"
+"Google","English","declarations","Korean","선언
+
+명사:
+    선언 (declaration, proclamation)
+    신고 (declaration, hardships)
+    신고서 (declaration, bill)
+    진술 (declaration, allegation, presentment, proposition, deliverance)
+    언명 (declaration, enunciation, averment, dick)
+    명언 (wise saying, phrase, declaration)
+    득점 발표 (declaration)"
+"Google","English","Initialization","Korean","초기화"
+"Google","English","constructor","Korean","건설자
+
+명사:
+    건설자 (constructor, erector)"
+"Google","English","subtle","Korean","미묘한
+
+형용사:
+    세밀한 (subtle, subtile)
+    교활한 (cunning, sly, insidious, crafty, subtle, tricky)
+    묽은 (thin, weak, serous, subtle, subtile, fine)
+    파악하기 어려운 (evasive, subtle, subtile)
+    의뭉스러운 (subtle, subtile, shifty)"
+"Google","English","signment","Korean","서명"
+"Google","English","assign","Korean","양수인
+
+명사:
+    양수인 (assignee, concessioner, assign, concessionaire)
+
+동사:
+    할당하다 (assign, allot, allocate, assess, admeasure, mete)
+    선임하다 (assign, co-opt)
+    지정하다 (understand situation, assign, name, intend for, tab)
+    ...에 돌리다 (ascribe, assign)
+    양도하다 (transfer, convey to by deed, alienate, cede, demise, assign)
+    배속하다 (assign)
+    재산을 위탁하다 (assign)"
+"Google","English","assignments","Korean","과제
+
+명사:
+    할당 (assignment, allotment)
+    양도 (assignment, conveyance, transmission, assignation, supply of provisions, two swords)
+    숙제 (homework, assignment, prep)
+    지시 (indication, lead, assignment, word, warrant)
+    분담 (assignment, contingent)
+    죄수의 할당 제도 (assignment)
+    무보수하인 할당 제도 (assignment)"
+"Google","English","assignment","Korean","과제
+
+명사:
+    할당 (assignment, allotment)
+    양도 (assignment, conveyance, transmission, assignation, supply of provisions, two swords)
+    숙제 (homework, assignment, prep)
+    지시 (indication, lead, assignment, word, warrant)
+    분담 (assignment, contingent)
+    죄수의 할당 제도 (assignment)
+    무보수하인 할당 제도 (assignment)"
+"Google","English","confusion","Korean","착란
+
+명사:
+    혼동 (confusion)
+    혼잡 (confusion, lock, crush, squash)
+    당황 (embarrassment, upset, dismay, puzzlement, confusion, bewilderment)
+    혼미 (confusion, fog)"
+"Google","English","immediately","Korean","즉시
+
+부사:
+    바로 (immediately, just, rightly, right about this place, sock, flush)
+    당장 (immediately, outright)"
+"Google","English","statement","Korean","성명
+
+명사:
+    성명서 (statement, proclamation)
+    기재 (materials, statement, registration, registry, genius)
+    이야기 (story, talk, tale, narrative, history, statement)
+    개진 (statement, submission, airing)
+    말하기 (speaking, saying, speech, statement)"
+"Google","English","left now points to memory that is no longer valid.","Korean","이제 남은 것은 더 이상 유효하지 않은 메모리를 가리 킵니다."
+"Google","English","assumes","Korean","가정합니다
+
+동사:
+    취하다 (take, assume, strike, borrow, prefer, get drunk)
+    잡다 (grapple, take, seize, catch, get, grasp)
+    말다 (roll, convolve, mix with, stop, scroll, assume)
+    제 것으로 삼다 (assume)
+    가정하다 (assume, presume, postulate, say)
+    사실이라고 보다 (assume)
+    사실이라고 생각하다 (assume)
+    ...인 체하다 (sham, fake, assume)
+    주제넘게 나서다 (obtrude, presume, assume)"
+"Google","English","unpredictable","Korean","예측할 수 없습니다"
+"Google","English","guarantees","Korean","보증
+
+명사:
+    보증 (warranty, guarantee, assurance, warrant, security, guaranty)
+    보장 (guarantee, indemnity, palladium)
+    피보증인 (warrantee, guarantee)
+    보증하는 것 (guarantee)"
+"Google","English","reclaimed","Korean","재생
+
+동사:
+    ...의 반환을 요구하다 (reclaim)
+    교정하다 (proofread, correct, rectify, revise, emend, reclaim)
+    개선하다 (improve, better, re-elect, return in triumph, mend, reclaim)
+    개간하다 (reclaim)
+    개화하다 (civilize, efflorescence, effloresce, reclaim)
+    교화하다 (civilize, reclaim)
+    개척하다 (reclaim, exploit, disafforest, colonize, pioneer, carve)"
+"Google","English","The pointer points to memory that has been reclaimed","Korean","포인터는 재생 된 메모리를 가리 킵니다"
+"Google","English","You are responsible for managing memory","Korean","메모리 관리에 대한 책임이 있습니다"
+"Google","English","incomplete type ""Node"" is not allowed C/","Korean","불완전한 유형 ""노드""가 허용되지 않습니다 c/"
+"Google","English","Potential Infinite Loop and Null Pointer Dereference","Korean","잠재적 인 무한 루프 및 NULL 포인터 단축"
+"Google","English","In find_node, if the value is not found, trace will eventually become nullptr, and then trace->data will cause a crash.
+How to fix:","Korean","find_node에서 값을 찾을 수없는 경우 추적은 결국 NULLPTR이되고 추적-> 데이터가 충돌을 일으 킵니다.
+수정 방법 :"
+"Google","English","Your code is not working for several reasons, both in logic and in C++ best practices.","Korean","코드는 논리와 C ++ 모범 사례 모두에서 여러 가지 이유로 작동하지 않습니다."
+"Google","English","Terminal will be reused by tasks","Korean","터미널은 작업에 의해 재사용됩니다"
+"Google","English","complete","Korean","완벽한
+
+형용사:
+    완전한 (complete, full, perfect, entire, integral, whole)
+    완성한 (complete)
+    전부의 (all, complete, overall)
+    완결한 (complete)
+    숙달한 (adept, versed, complete)
+
+동사:
+    채우다 (gratify, stuff, lock, fulfill, serve, complete)
+    완성하다 (complete, clear off, consummate, finalize, execute)
+    완료하다 (complete, consummate, go through)
+    완투하다 (pitch a whole game, complete)"
+"Google","English","Exhaustive","Korean","철저한
+
+형용사:
+    철저한 (thorough, exhaustive, depth, radical, outright, thoroughgoing)"
