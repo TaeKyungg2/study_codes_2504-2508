@@ -1,62 +1,28 @@
-import math
-def solution(k, room_number):
-    answer = []
-    mid=k//2
-    tree=BinarySearchTree()
-    tree.insert(Node(mid))
-    def MakeEmptyTree(node,k):
-        tree=BinarySearchTree()
-        height=int(math.log2(k+1))
+from math import log2,ceil
+from xml.etree.ElementTree import TreeBuilder
 
-
-
-    return answer
 class Node:
     def __init__(self,key):
         self.key=key
         self.left=None
         self.right=None
         self.parent=None
+def print_inorder(node):
+    if node == None:return
+    print_inorder(node.left)
+    print("",node.key, end="")
+    print_inorder(node.right)
+
+
 
 class BinarySearchTree:
-    def __init__(self):
+    def __init__(self,height):
         self.root=None
+        self.height=height
 
-    def insert(self,key):
-        new_node=Node(key)
-        if self.root is None:
-            self.root=new_node
-            return
-        current=self.root
-        while True:
-            if key<current.key:
-                if current.left is None:
-                    current.left=new_node
-                    new_node.parent=current
-                    break
-                current=current.left
-            elif key>current.key:
-                if current.right is None:
-                    current.right=new_node
-                    new_node.parent=current
-                    break
-                current=current.right
-            else : return
-            
-    def find(self,key):
-        current=self.root
-        while current is not None:
-            if key<current.key:
-                current=current.left
-            elif key>current.key:
-                current=current.right
-            else:
-                return "yes",current
-        return "no",current
     def delete(self,key):
-        flag,find_node=self.find(key)
+        find_node=find(self,key)
         isLeft=False
-        if flag=="no":return
         if find_node.parent.left==find_node:
             isLeft=True
         if find_node.left is None and find_node.right is None:
@@ -73,8 +39,62 @@ class BinarySearchTree:
         else:
             find_node.key=find_node.right.key
             self.delete(find_node.right.key)
-def print_inorder(node):
-    if node == None:return
-    print_inorder(node.left)
-    print("",node.key, end="")
-    print_inorder(node.right)
+        return find_node.key
+def MakeEmptyChild(node,height):
+    if height==1:return
+    node.left=Node(None)
+    node.left.parent=node
+    node.right=Node(None)
+    node.right.parent=node
+    MakeEmptyChild(node.left,height-1)
+    MakeEmptyChild(node.right,height-1)
+def findNext(node,key):
+    if node.key<key:return node
+    else: findNext(node.parent,key)
+def find(tree,key):
+    current=tree.root
+    while current is not None:
+        temp=current
+        if key<current.key:
+            current=current.left
+        elif key>current.key:
+            current=current.right
+        else:
+            return current
+    return findNext(temp,key)
+
+n=0
+import queue
+qu=queue.Queue()
+def BFS(node):
+    global qu
+    if node==None:return
+    qu.put(node)
+    n=1
+    while not qu.empty:
+        now=qu.get()
+        print(f'{n} : ',node.key,end=' ')
+        qu.put(now.left)
+        qu.put(now.right)
+        n+=1
+def solution(k, room_number):
+    answer = []
+    height=ceil(log2(k+1))
+    tree=BinarySearchTree(height)
+    tree.root=Node(None)
+    MakeEmptyChild(tree.root,height)
+    def set_inorder(node):
+        global n
+        if node == None:return
+        set_inorder(node.left)
+        n+=1
+        if n>=k+1:return
+        node.key=n
+        set_inorder(node.right)
+    set_inorder(tree.root)
+    BFS(tree.root)
+    #print_inorder(tree.root)
+    # for i in room_number:
+    #     answer.append(tree.delete(i))
+    # return answer
+solution(10,[1,3,4,1,3,1])
