@@ -7,3 +7,8 @@ import tensorflow as tf
 
 
 print([0]*9)
+print(0 is False)
+a=False
+b=False
+c=False
+print(id(a),id(b),id(c))

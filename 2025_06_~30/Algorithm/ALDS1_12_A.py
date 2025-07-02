@@ -11,6 +11,7 @@ def NRowToInt():
     for i in range(n):
         nums_.append(RowToInt())
     return nums_
+    
 def GoSmall(node):
     global box,visit,sum
     visit[node]=True

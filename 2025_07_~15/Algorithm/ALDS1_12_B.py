@@ -12,41 +12,39 @@ def NRowToInt():
         nums_.append(RowToInt())
     return nums_
 
-
 def makeGra():
     graph=[]
     for i in infor:
-        graph.append([None]*i[1]*2)
+        graph.append([float("inf")]*len(infor))
     for node in infor:
-        print(graph[node[0]])
-        for i in range(2,len(node)-2,2):
-            graph[node[0]][i]=node[i+1]
-    costs=[None]*len(infor)
-    for i in range(2,len(infor)-2,2):
-        costs[infor[i][0]]=infor[i]
-    return graph,costs
+        for i in range(2,len(node)-1,2):
+            graph[node[0]][node[i]]=node[i+1]
+    return graph
 
 def findLowCost(node):
-    minCost=float("inf")
-    lowNode=None
-    for i in range(2,len(node)-2,2):
-        if minCost<node[i+1]:
-            minCost=node[i+1]
-            lowNode=node[i]
-    return lowNode
+    for i in range(2,len(node),2):
+        if node[i] in visit:continue
+        heapq.heappush(WaitNode,(node[i+1],node[i]))
+    if len(WaitNode)==0:return False,False
+    return heapq.heappop(WaitNode)
 
+import heapq
+
+visit=set()
+WaitNode=[]
 infor=NRowToInt()
-graph,costs=makeGra()
-costs[0]=0
+graph=makeGra()
 node=0
-while node is not None:
-    cost=costs[node]
-    for i in range(2,infor[node]-1,2):
-        new_cost=cost+infor[node][i+1]
-        if costs[i]>new_cost:
-            costs[i]=new_cost
-    
-    node=findLowCost(infor[node])
+cost=0
+costs=[float("inf")]*len(infor)
+costs[0]=0
+while node is not False:
+    visit.add(node)
+    new_cost=cost+costs[node]
+    if costs[node]>new_cost:
+        costs[node]=new_cost
+    cost,node=findLowCost(infor[node])
+
 for i,co in enumerate(costs):
     print(i,co)
 
