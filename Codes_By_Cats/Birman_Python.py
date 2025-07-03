@@ -5,10 +5,6 @@ from math import sin
 import tensorflow as tf
 
 
+a=(1,2,3)
 
-print([0]*9)
-print(0 is False)
-a=False
-b=False
-c=False
-print(id(a),id(b),id(c))
+print(type(a))
