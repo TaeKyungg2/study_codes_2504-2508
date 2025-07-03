@@ -10,7 +10,7 @@ def NRowToInt():
     nums_=[]
     for i in range(n):
         nums_.append(RowToInt())
-    return nums_
+    return nums_ 
 
 def makeGra():
     graph=[]
