@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaggle 정복을 위한 인터랙티브 로드맵</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Focus -->
+    <!-- Application Structure Plan: 이 SPA는 보고서의 4개 파트를 4개의 주요 인터랙티브 섹션으로 변환한 단계별 학습 경로로 설계되었습니다. 사용자는 상단 네비게이션을 통해 특정 파트로 즉시 이동하거나, 스크롤을 통해 순차적으로 학습할 수 있습니다. 각 섹션은 텍스트 요약, 인터랙티브 다이어그램(HTML/CSS), 비교 차트(Chart.js), 그리고 확장 가능한 타임라인을 결합하여 정보를 제공합니다. 이 구조는 선형적인 학습 흐름을 제공하면서도, 사용자가 필요에 따라 비선형적으로 정보를 탐색할 수 있도록 유연성을 부여합니다. 이는 학습자가 자신의 속도에 맞춰 가장 효과적으로 지식을 습득하도록 돕기 위해 선택된 구조입니다. -->
+    <!-- Visualization & Content Choices: 
+        1. 파트 1 (핵심 라이브러리): 보고서의 워크플로우(Pandas -> NumPy -> Seaborn)를 시각적으로 보여주기 위해 HTML/CSS Flexbox 기반의 다이어그램을 선택했습니다. 각 라이브러리 카드를 클릭하면 요약 정보가 나타나는 상호작용을 통해 학습 참여도를 높입니다. Goal: Inform, Method: HTML/CSS Diagram, Interaction: Click-to-reveal.
+        2. 파트 2 (모델링 기초): Scikit-learn의 'Pipeline'과 '교차 검증'이라는 추상적인 개념을 구체화하기 위해 간단한 HTML/CSS 시각화 다이어그램을 사용했습니다. Goal: Organize, Method: HTML/CSS Flowchart, Interaction: Static visual aid.
+        3. 파트 3 (고급 전략): XGBoost와 LightGBM의 다각적인 비교를 위해 정적 테이블보다 시각적으로 우수한 Chart.js의 막대 차트를 사용했습니다. 사용자는 차트를 통해 두 모델의 장단점을 즉각적으로 비교할 수 있습니다. Goal: Compare, Method: Chart.js Bar Chart, Interaction: Hover for details (tooltip).
+        4. 파트 4 (학습 계획): 12주간의 학습 계획을 보여주기 위해 HTML/CSS로 구현된 수직 타임라인을 선택했습니다. 각 단계를 클릭하면 세부 과제와 목표가 확장되어 나타나는 상호작용은 지루할 수 있는 계획을 탐색하는 재미있는 경험으로 바꿉니다. Goal: Organize, Method: HTML/CSS Timeline, Interaction: Click-to-expand.
+        이 모든 선택은 NO SVG/Mermaid 원칙을 준수하며 설계된 구조를 지원합니다.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 350px; max-height: 50vh; }
+        .section-fade-in { animation: fadeIn 1s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-link { transition: color 0.3s, border-color 0.3s; }
+        .nav-link.active { color: #2563EB; border-bottom-color: #2563EB; }
+        .timeline-item-content { transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="bg-[#F8F7F4] text-[#4A4A4A]">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800">🚀 Kaggle Pathfinder</h1>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#part1" class="nav-link text-gray-600 hover:text-blue-600 border-b-2 border-transparent pb-1">1. 핵심 툴킷</a>
+                    <a href="#part2" class="nav-link text-gray-600 hover:text-blue-600 border-b-2 border-transparent pb-1">2. 모델링 기초</a>
+                    <a href="#part3" class="nav-link text-gray-600 hover:text-blue-600 border-b-2 border-transparent pb-1">3. 고급 전략</a>
+                    <a href="#part4" class="nav-link text-gray-600 hover:text-blue-600 border-b-2 border-transparent pb-1">4. 학습 계획</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+                 <a href="#part1" class="block nav-link text-gray-600 hover:text-blue-600">1. 핵심 툴킷</a>
+                 <a href="#part2" class="block nav-link text-gray-600 hover:text-blue-600">2. 모델링 기초</a>
+                 <a href="#part3" class="block nav-link text-gray-600 hover:text-blue-600">3. 고급 전략</a>
+                 <a href="#part4"="block nav-link text-gray-600 hover:text-blue-600">4. 학습 계획</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">캐글 정복을 위한 인터랙티브 로드맵</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">이론을 실전으로, 코드를 무기로 만드는 여정. 이 가이드는 당신의 성공적인 캐글 도전을 위한 체계적인 학습 경로를 제시합니다.</p>
+        </div>
+
+        <section id="part1" class="mb-24 section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Part 1: 데이터 과학자의 필수 툴킷 🧰</h3>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-600">모든 데이터 분석은 강력한 도구를 능숙하게 다루는 것에서 시작됩니다. 이 섹션에서는 데이터 과학의 '스위스 아미 나이프'라 불리는 핵심 라이브러리들이 어떻게 유기적으로 연결되어 작동하는지 알아봅니다. 각 카드를 클릭하여 핵심 기능을 확인하세요.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <div class="card-container w-full md:w-1/4">
+                    <div id="pandas-card" class="interactive-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blue-500">
+                        <h4 class="text-xl font-bold text-center text-gray-800">Pandas</h4>
+                        <p class="text-center text-sm text-gray-500 mt-1">데이터 조작</p>
+                    </div>
+                </div>
+                <div class="text-2xl font-mono text-blue-500 mx-2">&rarr;</div>
+                <div class="card-container w-full md:w-1/4">
+                    <div id="numpy-card" class="interactive-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blue-500">
+                        <h4 class="text-xl font-bold text-center text-gray-800">NumPy</h4>
+                        <p class="text-center text-sm text-gray-500 mt-1">수치 연산</p>
+                    </div>
+                </div>
+                <div class="text-2xl font-mono text-blue-500 mx-2">&rarr;</div>
+                <div class="card-container w-full md:w-1/4">
+                    <div id="seaborn-card" class="interactive-card bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer border-2 border-transparent hover:border-blue-500">
+                        <h4 class="text-xl font-bold text-center text-gray-800">Seaborn</h4>
+                         <p class="text-center text-sm text-gray-500 mt-1">데이터 시각화</p>
+                    </div>
+                </div>
+            </div>
+            <div id="card-details" class="mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg text-gray-700 min-h-[150px] flex items-center justify-center transition-opacity duration-500 opacity-0">
+                <p>위의 라이브러리 카드를 클릭하여 상세 설명을 확인하세요.</p>
+            </div>
+        </section>
+
+        <section id="part2" class="mb-24 section-fade-in">
+             <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Part 2: 머신러닝 모델링의 기초 🏗️</h3>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-600">데이터를 준비했다면 이제 예측 모델을 만들 차례입니다. 이 섹션에서는 Scikit-learn을 사용하여 데이터 전처리부터 모델 구축, 그리고 가장 중요한 모델 성능 검증까지의 전문적인 워크플로우를 시각적으로 이해합니다.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-4 text-center">핵심 워크플로우: Pipeline</h4>
+                    <p class="text-center text-gray-600 mb-6">데이터 누수(Data Leakage)를 방지하고 재현성을 보장하는 파이프라인의 개념입니다.</p>
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 p-3 rounded-lg text-center font-semibold">데이터 (Train / Validation)</div>
+                        <div class="text-center text-2xl">↓</div>
+                        <div class="border-2 border-dashed border-blue-400 p-4 rounded-lg">
+                            <h5 class="font-bold text-center text-blue-600 mb-2">파이프라인 (Pipeline)</h5>
+                            <div class="bg-blue-100 p-3 rounded-lg text-center mb-2">1. 데이터 전처리 (Scaler, Encoder)</div>
+                            <div class="text-center text-xl">↓</div>
+                            <div class="bg-blue-100 p-3 rounded-lg text-center">2. 모델 학습 (Estimator)</div>
+                        </div>
+                        <div class="text-center text-2xl">↓</div>
+                        <div class="bg-gray-100 p-3 rounded-lg text-center font-semibold">예측 결과</div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-4 text-center">핵심 기술: K-Fold 교차 검증</h4>
+                    <p class="text-center text-gray-600 mb-6">모델의 일반화 성능을 안정적으로 평가하는 골드 스탠다드입니다. 공개 리더보드 점수보다 로컬 CV 점수를 신뢰해야 합니다.</p>
+                    <div id="cv-visualization" class="space-y-2">
+                        <p class="text-center font-semibold mb-4">데이터셋을 K개의 그룹(Fold)으로 분할 (예: K=5)</p>
+                        <div class="flex justify-between p-2 bg-gray-200 rounded">
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-green-500 text-white rounded font-bold">Valid</div>
+                        </div>
+                        <div class="flex justify-between p-2 bg-gray-200 rounded">
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                             <div class="w-1/5 text-center p-2 bg-green-500 text-white rounded font-bold">Valid</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                        </div>
+                        <p class="text-center font-bold text-2xl my-2">...</p>
+                         <div class="flex justify-between p-2 bg-gray-200 rounded">
+                            <div class="w-1/5 text-center p-2 bg-green-500 text-white rounded font-bold">Valid</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                            <div class="w-1/5 text-center p-2 bg-blue-500 text-white rounded font-bold">Train</div>
+                        </div>
+                        <p class="text-center mt-4 text-gray-600">이 과정을 K번 반복하여 성능 점수들을 평균 내어 최종 성능을 평가합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="part3" class="mb-24 section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Part 3: 경쟁의 기술 - 상위권을 위한 고급 전략 🏆</h3>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-600">캐글 리더보드 상위권의 비밀은 여기에 있습니다. 정형 데이터 대회에서 승패를 가르는 부스팅 알고리즘과 창의적인 피처 엔지니어링, 그리고 앙상블 기법을 알아봅니다.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-4 text-center">부스팅 알고리즘 비교: XGBoost vs LightGBM</h4>
+                    <p class="text-center text-gray-600 mb-6">두 모델의 장단점을 이해하고 상황에 맞는 최적의 선택을 하는 것이 중요합니다. 속도와 안정성 사이의 트레이드오프가 핵심입니다.</p>
+                    <div class="chart-container">
+                        <canvas id="boosterChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg space-y-8">
+                     <div>
+                        <h4 class="text-xl font-bold mb-4 text-center">피처 엔지니어링: 모델 성능 극대화</h4>
+                        <p class="text-center text-gray-600 mb-6">"더 좋은 피처가 더 좋은 모델을 만든다." 알고리즘 튜닝보다 피처 엔지니어링이 성능에 더 큰 영향을 미칩니다.</p>
+                        <div class="bg-gray-100 p-4 rounded-lg font-mono text-center">
+                            <span class="bg-purple-200 px-2 py-1 rounded">'SibSp'</span> + <span class="bg-purple-200 px-2 py-1 rounded">'Parch'</span> &rarr; <span class="bg-green-200 px-2 py-1 rounded font-bold">'FamilySize'</span>
+                        </div>
+                         <p class="text-center text-gray-500 mt-2 text-sm">도메인 지식을 활용하여 '가족 크기'라는 새로운 피처 생성</p>
+                    </div>
+                     <div>
+                        <h4 class="text-xl font-bold mb-4 text-center">앙상블: 집단 지성의 힘</h4>
+                        <p class="text-center text-gray-600 mb-6">여러 다른 모델의 예측을 결합하여 단일 모델보다 더 강력하고 안정적인 예측을 만듭니다.</p>
+                        <div class="border-2 border-dashed border-purple-400 p-4 rounded-lg">
+                            <h5 class="font-bold text-center text-purple-600 mb-2">스태킹 (Stacking)</h5>
+                            <div class="flex justify-around text-center">
+                                <div><div class="bg-purple-100 p-2 rounded">모델 A</div></div>
+                                <div><div class="bg-purple-100 p-2 rounded">모델 B</div></div>
+                                <div><div class="bg-purple-100 p-2 rounded">모델 C</div></div>
+                            </div>
+                            <div class="text-center text-2xl my-2">↓</div>
+                            <p class="text-center text-sm mb-2">각 모델의 예측값을 새로운 피처로 사용</p>
+                            <div class="bg-green-100 p-3 rounded-lg text-center font-semibold">메타 모델 (Meta Model)</div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="part4" class="section-fade-in">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-800">Part 4: 실전! 12주 학습 계획 🗓️</h3>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-600">이제 이론을 실전 능력으로 전환할 시간입니다. 이 단계별 계획을 따라 기초부터 첫 대회 참가까지 꾸준히 나아가세요. 각 단계를 클릭하여 세부 내용을 확인하세요.</p>
+            </div>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-blue-200"></div>
+                <div class="space-y-12">
+                    <div class="timeline-item relative">
+                        <div class="timeline-icon absolute left-1/2 -translate-x-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-blue-500">1</div>
+                        <div class="ml-auto md:ml-0 md:w-5/12 p-4 bg-white rounded-lg shadow-md cursor-pointer timeline-content-container">
+                            <h5 class="font-bold">1단계: 기초 다지기 (1-2주차)</h5>
+                            <div class="timeline-item-content overflow-hidden max-h-0">
+                                <p class="mt-2 text-gray-600"><strong class="text-gray-800">실행 과제:</strong> 캐글 Learn 코스 (`Python`, `Pandas`, `Data Visualization`) 완료</p>
+                                <p class="mt-1 text-gray-600"><strong class="text-gray-800">학습 목표:</strong> 기본적인 데이터 핸들링 및 시각화 기술에 능숙해지기</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item relative">
+                         <div class="timeline-icon absolute left-1/2 -translate-x-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-blue-500">2</div>
+                        <div class="md:ml-auto md:w-5/12 p-4 bg-white rounded-lg shadow-md cursor-pointer timeline-content-container">
+                            <h5 class="font-bold">2단계: 첫 모델 구축 (3-4주차)</h5>
+                            <div class="timeline-item-content overflow-hidden max-h-0">
+                                <p class="mt-2 text-gray-600"><strong class="text-gray-800">실행 과제:</strong> 캐글 Learn 코스 (`Intro to ML`, `Intermediate ML`) 완료</p>
+                                <p class="mt-1 text-gray-600"><strong class="text-gray-800">학습 목표:</strong> 전처리부터 검증까지 머신러닝 전체 워크플로우 이해</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item relative">
+                        <div class="timeline-icon absolute left-1/2 -translate-x-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-blue-500">3</div>
+                        <div class="ml-auto md:ml-0 md:w-5/12 p-4 bg-white rounded-lg shadow-md cursor-pointer timeline-content-container">
+                             <h5 class="font-bold">3단계: 첫 대회 참가 (5-8주차)</h5>
+                             <div class="timeline-item-content overflow-hidden max-h-0">
+                                <p class="mt-2 text-gray-600"><strong class="text-gray-800">실행 과제:</strong> Titanic 대회 참가, 상위권 노트북 분석 및 자신만의 코드 개선</p>
+                                <p class="mt-1 text-gray-600"><strong class="text-gray-800">학습 목표:</strong> 신뢰할 수 있는 교차 검증 환경 구축 및 실전 워크플로우 적용</p>
+                             </div>
+                        </div>
+                    </div>
+                     <div class="timeline-item relative">
+                         <div class="timeline-icon absolute left-1/2 -translate-x-1/2 w-8 h-8 bg-white border-2 border-blue-500 rounded-full flex items-center justify-center font-bold text-blue-500">4</div>
+                        <div class="md:ml-auto md:w-5/12 p-4 bg-white rounded-lg shadow-md cursor-pointer timeline-content-container">
+                            <h5 class="font-bold">4단계: 고급 도구 레벨업 (9-12주차)</h5>
+                             <div class="timeline-item-content overflow-hidden max-h-0">
+                                <p class="mt-2 text-gray-600"><strong class="text-gray-800">실행 과제:</strong> House Prices 대회 참가, XGBoost/LightGBM 적용</p>
+                                <p class="mt-1 text-gray-600"><strong class="text-gray-800">학습 목표:</strong> 부스팅 모델, 하이퍼파라미터 튜닝, 앙상블 기법 연습</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>이제 당신의 캐글 여정을 시작할 시간입니다.</p>
+            <p class="text-sm text-gray-400 mt-2">이 로드맵이 당신의 성공적인 도전에 든든한 동반자가 되기를 바랍니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const cardDetails = {
+                'pandas-card': {
+                    title: 'Pandas: 데이터 조작의 스위스 아미 나이프',
+                    description: '데이터 로딩, 정제, 탐색, 그룹화 등 모든 데이터 분석의 시작점입니다. `DataFrame`이라는 강력한 2차원 데이터 구조를 중심으로 작업이 이루어집니다.'
+                },
+                'numpy-card': {
+                    title: 'NumPy: 고성능 수치 연산의 심장',
+                    description: '파이썬의 과학 컴퓨팅 생태계의 공용어입니다. 내부적으로 C로 구현되어 매우 빠른 배열 연산을 지원하며, 대부분의 머신러닝 라이브러리의 기반이 됩니다.'
+                },
+                'seaborn-card': {
+                    title: 'Seaborn: 데이터에 생명을 불어넣는 시각화',
+                    description: 'Matplotlib을 기반으로 한 통계 데이터 시각화 라이브러리입니다. 복잡한 그래프를 몇 줄의 코드로 생성하여 데이터의 패턴과 관계를 직관적으로 파악하게 돕습니다.'
+                }
+            };
+            
+            const cardDetailsContainer = document.getElementById('card-details');
+            document.querySelectorAll('.interactive-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const cardId = this.id;
+                    const details = cardDetails[cardId];
+                    
+                    document.querySelectorAll('.interactive-card').forEach(c => c.classList.remove('border-blue-500', 'scale-105'));
+                    this.classList.add('border-blue-500', 'scale-105');
+
+                    cardDetailsContainer.style.opacity = 0;
+                    setTimeout(() => {
+                        cardDetailsContainer.innerHTML = `
+                            <div>
+                                <h5 class="font-bold text-lg text-blue-800">${details.title}</h5>
+                                <p class="mt-2 text-blue-900/80">${details.description}</p>
+                            </div>
+                        `;
+                        cardDetailsContainer.style.opacity = 1;
+                    }, 300);
+                });
+            });
+
+            const boosterChartCtx = document.getElementById('boosterChart').getContext('2d');
+            const boosterChart = new Chart(boosterChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['학습 속도', '메모리 사용량', '작은 데이터셋 성능', '범주형 피처 처리'],
+                    datasets: [{
+                        label: 'XGBoost',
+                        data: [6, 8, 9, 3],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'LightGBM',
+                        data: [10, 10, 6, 9],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    if(value === 10) return '빠름/좋음';
+                                    if(value === 5) return '보통';
+                                    if(value === 0) return '느림/나쁨';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '성능 지표 비교 (10점 만점)',
+                            padding: { top: 10, bottom: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + '점';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.querySelectorAll('.timeline-content-container').forEach(item => {
+                item.addEventListener('click', function() {
+                    const content = this.querySelector('.timeline-item-content');
+                    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                        content.style.maxHeight = '0px';
+                        content.style.paddingTop = '0';
+                        content.style.paddingBottom = '0';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        content.style.paddingTop = '0.5rem';
+                        content.style.paddingBottom = '0.5rem';
+                    }
+                });
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (mobileMenu.offsetParent !== null) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

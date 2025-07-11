@@ -31,4 +31,3 @@ visit=[False]*len(A)
 sum=0
 GoSmall(0)
 print(sum)
-

@@ -6,6 +6,7 @@ def NRowToInt2():
     for i in range(m):
         nums_.append(RowToInt())
     return nums_,n
+    
 def NRowToInt():
     n=int(input())
     nums_=[]

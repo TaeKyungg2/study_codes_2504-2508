@@ -1,5 +1,3 @@
-
-
 def RowToInt():
     nums=[]
     nums=list(map(int,input().split()))
@@ -12,7 +10,6 @@ def NRowToInt():
         nums_.append(RowToInt())
     return nums_ 
 
-
 def findLowCost(node):
     for i in range(2,len(node),2):
         if costs[node[i]]<costs[node[0]]+node[i+1]:continue
@@ -21,7 +18,6 @@ def findLowCost(node):
     return heapq.heappop(WaitNode)
 
 import heapq
-
 WaitNode=[]
 infor=NRowToInt()
 node=0
