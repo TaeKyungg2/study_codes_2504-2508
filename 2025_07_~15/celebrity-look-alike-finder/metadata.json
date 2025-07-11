@@ -1,0 +1,5 @@
+{
+  "name": "Celebrity Look-Alike Finder",
+  "description": "Upload a facial photo and discover which celebrity you resemble and the similarity percentage. This app uses AI to analyze your features.",
+  "requestFramePermissions": []
+}
