@@ -38,8 +38,5 @@ for i,co in enumerate(costs):
 
 
 
-
-
-
         
 
