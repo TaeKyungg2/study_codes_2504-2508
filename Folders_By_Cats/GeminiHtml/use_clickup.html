@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인터랙티브 ClickUp 활용 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Neutral (Slate Gray) with Purple Accent -->
+    <!-- Application Structure Plan: A tab-based SPA to segment the detailed ClickUp guide into logical, user-selectable themes (Quickstart, Dev Workflow, Data Science, Advanced, Pricing). This non-linear structure allows users to directly access the information most relevant to them, improving usability over a long-form document. Key interactions include a visual Kanban board, a mock dashboard, and an interactive plan comparison chart to make the report's recommendations more tangible and persuasive. -->
+    <!-- Visualization & Content Choices: Report's hierarchy table -> Goal: Organize -> Viz: Nested HTML list -> Interaction: Hover for details -> Justification: More intuitive than a table. Report's plan comparison table -> Goal: Compare/Persuade -> Viz: Chart.js Bar Chart -> Interaction: Hover over bars to see detailed "Impact on Team" text -> Justification: Visually highlights key differences and justifies the "Business" plan recommendation far more effectively than a static table. Kanban/Dashboard -> Goal: Inform/Organize -> Viz: HTML/CSS mockups with a simple Chart.js canvas -> Justification: Provides a visual anchor for abstract concepts. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .tab-active {
+            border-color: #8b5cf6;
+            color: #8b5cf6;
+            font-weight: 700;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .hierarchy-item {
+            border-left: 2px solid #e5e7eb;
+            padding-left: 1rem;
+            margin-top: 0.5rem;
+        }
+        .hierarchy-item .description {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+        }
+        .hierarchy-item:hover .description {
+            display: block;
+        }
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .kanban-column {
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+        }
+        .kanban-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-slate-900">개발 팀을 위한 인터랙티브 ClickUp 청사진</h1>
+            <p class="mt-2 text-lg text-slate-600">ClickUp을 팀의 핵심 신경계로 전환하는 실용 가이드</p>
+        </header>
+
+        <nav class="flex justify-center border-b-2 border-slate-200 mb-8 space-x-4 sm:space-x-8">
+            <button data-tab="quickstart" class="tab-btn py-4 px-2 sm:px-4 border-b-4 border-transparent tab-active">🚀 퀵스타트</button>
+            <button data-tab="dev-workflow" class="tab-btn py-4 px-2 sm:px-4 border-b-4 border-transparent">💻 개발 워크플로우</button>
+            <button data-tab="data-science" class="tab-btn py-4 px-2 sm:px-4 border-b-4 border-transparent">🔬 데이터 사이언스</button>
+            <button data-tab="advanced" class="tab-btn py-4 px-2 sm:px-4 border-b-4 border-transparent">⚙️ 고급 설정</button>
+            <button data-tab="pricing" class="tab-btn py-4 px-2 sm:px-4 border-b-4 border-transparent">💰 요금제 비교</button>
+        </nav>
+
+        <main>
+            <!-- 퀵스타트 섹션 -->
+            <section id="quickstart" class="content-section active">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">1부: 10분 퀵스타트 — 개발 워크스페이스 구축</h2>
+                <p class="mb-6 text-slate-600">이 섹션은 10분 안에 기능적이고 모범 사례에 기반한 워크스페이스를 구축할 수 있도록 설계된 가이드입니다. 아래 구조를 따라 팀의 모든 작업을 담는 뼈대를 만들어보세요.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4">최적의 계층 구조</h3>
+                    <p class="mb-6 text-slate-600">아래 항목에 마우스를 올려 각 계층의 목적과 설명을 확인하세요. 이 구조는 명확성, 협업 효율성, 확장성을 모두 고려한 모범 사례입니다.</p>
+                    <div class="hierarchy-item">
+                        <span class="font-bold text-lg">🏢 Workspace: [팀 이름] Workspace</span>
+                        <div class="description text-sm text-slate-700">조직의 모든 활동을 포함하는 최상위 허브입니다. 일반적으로 조직당 하나만 사용합니다.</div>
+                        <div class="hierarchy-item">
+                            <span class="font-bold text-md">📂 Space: Engineering</span>
+                            <div class="description text-sm text-slate-700">개발과 관련된 모든 프로젝트와 워크플로우를 관리하는 중앙 공간입니다. 비공개로 설정하여 팀원만 접근하도록 합니다.</div>
+                            <div class="hierarchy-item">
+                                <span class="font-semibold">📁 Folder: Product Sprints</span>
+                                <div class="description text-sm text-slate-700">애자일 스프린트 방식으로 진행되는 모든 소프트웨어 개발 프로젝트를 그룹화합니다.</div>
+                                <div class="hierarchy-item">
+                                    <span>- 🗒️ List: Product Backlog</span>
+                                    <div class="description text-sm text-slate-700">스프린트에 포함되기 전의 모든 기능 요구사항, 아이디어, 개선 사항을 관리하는 대기열입니다.</div>
+                                </div>
+                                <div class="hierarchy-item">
+                                    <span>- 🗒️ List: Bug Tracking</span>
+                                    <div class="description text-sm text-slate-700">보고된 모든 버그를 체계적으로 추적하고 관리하는 중앙 저장소입니다.</div>
+                                </div>
+                                <div class="hierarchy-item">
+                                    <span>- 🗒️ List: Sprints</span>
+                                    <div class="description text-sm text-slate-700">실제 스프린트 주기를 관리하는 리스트입니다.</div>
+                                </div>
+                            </div>
+                            <div class="hierarchy-item">
+                                <span class="font-semibold">📁 Folder: Kaggle Competitions</span>
+                                <div class="description text-sm text-slate-700">데이터 사이언스 및 Kaggle 경쟁 관련 프로젝트를 별도로 관리합니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 개발 워크플로우 섹션 -->
+            <section id="dev-workflow" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">2부 & 3부: 개발 워크플로우 마스터하기</h2>
+                <p class="mb-6 text-slate-600">애자일 방법론과 GitHub 연동을 통해 실제 개발 프로젝트를 추진하는 방법을 다룹니다. 코드와 프로젝트 관리가 완벽하게 동기화되는 환경을 구축해보세요.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-bold mb-4">칸반 방식 워크플로우 시각화</h3>
+                    <p class="mb-4 text-slate-600">칸반 보드는 작업 흐름을 시각적으로 표현하여 팀이 현재 상황을 한눈에 파악하고 병목 현상을 식별하는 데 효과적입니다. 아래는 개발 워크플로우에 맞춘 커스텀 상태 예시입니다.</p>
+                    <div class="kanban-board">
+                        <div class="kanban-column"><h4 class="font-bold">To Do</h4><div class="kanban-card">로그인 UI 개발</div><div class="kanban-card">API 엔드포인트 설계</div></div>
+                        <div class="kanban-column"><h4 class="font-bold">In Progress <span class="text-sm font-normal text-red-500">(WIP: 2)</span></h4><div class="kanban-card">데이터베이스 스키마 디자인</div></div>
+                        <div class="kanban-column"><h4 class="font-bold">In Review</h4><div class="kanban-card">사용자 인증 로직 PR</div></div>
+                        <div class="kanban-column"><h4 class="font-bold">QA/Testing</h4></div>
+                        <div class="kanban-column"><h4 class="font-bold">Done</h4><div class="kanban-card">프로젝트 초기 설정</div></div>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500"><span class="font-bold text-red-500">WIP (Work-in-Progress) 제한</span>은 특정 상태에 있는 작업 수를 제한하여 팀의 멀티태스킹을 방지하고 생산성을 높이는 핵심 기능입니다. (Business 요금제 이상)</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4">GitHub 연동 및 자동화</h3>
+                    <p class="mb-4 text-slate-600">GitHub 연동은 단순한 추적을 넘어, 특정 Git 활동이 ClickUp의 상태를 변경하도록 자동화할 수 있습니다. 이는 개발자의 수동 작업을 없애고 ClickUp 보드가 항상 최신 상태를 유지하게 합니다.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-slate-100 rounded-lg">
+                            <div class="text-2xl mr-4">📝</div>
+                            <div><span class="font-bold">ClickUp 태스크에서 브랜치 생성</span><br>CU-a1b2c_Login-UI</div>
+                            <div class="mx-4 text-2xl text-slate-400">→</div>
+                            <div class="text-2xl mr-4">💻</div>
+                            <div><span class="font-bold">PR 생성 시 상태 자동 변경</span><br>태스크 상태 → In Review</div>
+                            <div class="mx-4 text-2xl text-slate-400">→</div>
+                            <div class="text-2xl mr-4">✅</div>
+                            <div><span class="font-bold">PR 병합 시 상태 자동 변경</span><br>태스크 상태 → Done</div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500"><span class="font-bold">고급 GitHub 자동화</span>(예: PR 병합 시 상태 변경)는 워크플로우 자동화의 핵심이며, Business 요금제 이상에서 제공됩니다.</p>
+                </div>
+            </section>
+
+            <!-- 데이터 사이언스 섹션 -->
+            <section id="data-science" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">4부: Kaggle 및 데이터 사이언스 프로젝트 활용법</h2>
+                <p class="mb-6 text-slate-600">ClickUp은 표준적인 소프트웨어 개발을 넘어 데이터 사이언스 프로젝트의 탐색적이고 선형적인 특징에 맞게 변형하여 사용할 수 있습니다. ClickUp을 포괄적인 연구 허브로 만들어보세요.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4">데이터 사이언스 라이프사이클</h3>
+                        <p class="mb-4 text-slate-600">프로젝트의 주요 단계를 태스크로 정의하고, 세부 작업은 서브태스크로 관리합니다.</p>
+                        <ol class="list-decimal list-inside space-y-2">
+                            <li>문제 정의 및 데이터 수집</li>
+                            <li>탐색적 데이터 분석 (EDA)</li>
+                            <li>피처 엔지니어링</li>
+                            <li>모델 선택 및 훈련</li>
+                            <li>하이퍼파라미터 튜닝</li>
+                            <li>모델 평가 및 분석</li>
+                            <li>제출 및 결과 문서화</li>
+                        </ol>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-2xl font-bold mb-4">연구 및 실험을 위한 핵심 기능</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-700">
+                            <li><span class="font-semibold">ClickUp Docs:</span> 중앙 실험 노트(Lab Notebook)로 활용하여 가설, 결과, 보고서를 기록합니다.</li>
+                            <li><span class="font-semibold">ClickUp Whiteboards:</span> 모델 아키텍처나 파이프라인을 시각적으로 설계하고 브레인스토밍합니다.</li>
+                            <li><span class="font-semibold">커스텀 필드:</span> 각 실험의 모델 타입, CV 점수, 하이퍼파라미터 등을 체계적으로 추적합니다.</li>
+                            <li><span class="font-semibold">Gantt View:</span> 프로젝트의 단계별 종속성과 전체 타임라인을 시각화합니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 고급 설정 섹션 -->
+            <section id="advanced" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">5부: 팀 성과 극대화를 위한 고급 구성</h2>
+                <p class="mb-6 text-slate-600">대시보드와 자동화를 활용하여 모든 프로젝트에 걸쳐 높은 수준의 가시성을 확보하고 팀의 효율성을 극대화하는 방법을 소개합니다.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4">미션 컨트롤: 팀 대시보드 (예시)</h3>
+                    <p class="mb-4 text-slate-600">대시보드는 워크스페이스 전반의 데이터를 한눈에 볼 수 있는 맞춤형 뷰입니다. 아래는 개발팀을 위한 대시보드 위젯 구성 예시입니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">스프린트 번다운 차트</h4>
+                            <div class="chart-container h-48 max-h-48">
+                                <canvas id="burndownChart"></canvas>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-2">애자일 성과를 실시간으로 추적합니다. (Business 요금제 이상)</p>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">긴급 버그 (P1)</h4>
+                            <ul class="list-disc list-inside text-sm space-y-1">
+                                <li>[BE-123] 결제 API 실패</li>
+                                <li>[FE-456] 로그인 페이지 로딩 안됨</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">코드 리뷰 대기중</h4>
+                             <ul class="list-disc list-inside text-sm space-y-1">
+                                <li>[FE-458] 프로필 이미지 업로드 기능</li>
+                                <li>[BE-125] 검색 성능 개선</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg text-center">
+                            <h4 class="font-bold mb-2">해결되지 않은 버그</h4>
+                            <p class="text-4xl font-bold text-red-500">12</p>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg col-span-1 md:col-span-2 lg:col-span-2">
+                             <h4 class="font-bold mb-2">Slack 자동화 예시</h4>
+                             <p class="text-sm bg-white p-3 rounded">
+                                <span class="font-semibold">트리거:</span> 태스크 상태가 'In Review'로 변경될 때<br>
+                                <span class="font-semibold">액션:</span> `#code-reviews` 채널에 "PR 리뷰 요청: {task_link}" 메시지 전송
+                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 요금제 비교 섹션 -->
+            <section id="pricing" class="content-section">
+                <h2 class="text-3xl font-bold mb-4 text-slate-900">6부: 전략적 권장 사항: Unlimited vs. Business</h2>
+                <p class="mb-6 text-slate-600">진지한 개발팀에게 Business 요금제는 사치가 아닌 필수입니다. 아래 차트는 두 요금제의 결정적인 차이를 보여줍니다. 각 항목에 마우스를 올려 팀에 미치는 영향을 확인해보세요.</p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-bold mb-4 text-center">핵심 기능 비교: Unlimited vs. Business</h3>
+                    <div class="chart-container h-96 max-h-[60vh]">
+                        <canvas id="planComparisonChart"></canvas>
+                    </div>
+                    <div id="feature-impact" class="mt-6 p-4 bg-slate-100 rounded-lg text-center text-slate-700 min-h-[80px] flex items-center justify-center">
+                        <p>차트의 각 항목에 마우스를 올려 상세 설명을 확인하세요.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 text-sm text-slate-500">
+            <p>이 애플리케이션은 제공된 '개발자 팀을 위한 ClickUp 마스터링 청사진' 보고서를 기반으로 생성되었습니다.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('.content-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('tab-active'));
+                    tab.classList.add('tab-active');
+
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === tab.dataset.tab) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Burndown Chart
+            const burndownCtx = document.getElementById('burndownChart');
+            if (burndownCtx) {
+                new Chart(burndownCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Day 1', 'Day 3', 'Day 5', 'Day 7', 'Day 9', 'Day 11', 'Day 14'],
+                        datasets: [{
+                            label: 'Ideal Burndown',
+                            data: [40, 34, 28, 22, 16, 10, 0],
+                            borderColor: 'rgb(203 213 225)',
+                            borderDash: [5, 5],
+                            tension: 0.1,
+                            pointRadius: 0,
+                        }, {
+                            label: 'Actual Burndown',
+                            data: [40, 38, 30, 25, 20, 12, 5],
+                            borderColor: 'rgb(139 92 246)',
+                            backgroundColor: 'rgba(139 92 246, 0.1)',
+                            fill: true,
+                            tension: 0.1,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true, title: { display: true, text: 'Sprint Points' } } }
+                    }
+                });
+            }
+
+            // Plan Comparison Chart
+            const planCtx = document.getElementById('planComparisonChart');
+            if (planCtx) {
+                const features = [
+                    'GitHub 자동화',
+                    'WIP 제한',
+                    '애자일 대시보드 위젯',
+                    'Workload 뷰',
+                    '팀 (User Groups)'
+                ];
+                const impacts = {
+                    'GitHub 자동화': '<strong>필수:</strong> PR 병합 시 상태 자동 변경과 같은 핵심 워크플로우에 반드시 필요함.',
+                    'WIP 제한': '<strong>필수:</strong> 효과적인 칸반 흐름 관리 및 병목 현상 식별을 위해 필요함.',
+                    '애자일 대시보드 위젯': '<strong>필수:</strong> 스프린트 상태와 팀 성과를 정량적으로 추적하기 위해 필요함.',
+                    'Workload 뷰': '<strong>강력 권장:</strong> 스프린트 계획 시 팀원의 과부하를 방지하고 번아웃을 예방함.',
+                    '팀 (User Groups)': '현재는 영향이 적으나, 향후 팀 확장 시 중요함.'
+                };
+                const unlimitedData = [1, 0, 0, 1, 1]; // 0: N/A, 1: Limited, 2: Full
+                const businessData = [2, 2, 2, 2, 2];
+
+                const planChart = new Chart(planCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: features,
+                        datasets: [{
+                            label: 'Unlimited 요금제',
+                            data: unlimitedData,
+                            backgroundColor: (context) => {
+                                const value = context.dataset.data[context.dataIndex];
+                                return value === 0 ? '#ef4444' : '#fbbf24'; // Red for N/A, Amber for Limited
+                            },
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }, {
+                            label: 'Business 요금제',
+                            data: businessData,
+                            backgroundColor: '#22c55e', // Green for Full
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        if (value === 0) return '사용 불가';
+                                        if (value === 1) return '제한적';
+                                        if (value === 2) return '사용 가능';
+                                        return '';
+                                    },
+                                    stepSize: 1,
+                                    max: 2,
+                                },
+                                grid: { display: false }
+                            },
+                             y: { grid: { display: false } }
+                        },
+                        plugins: {
+                            legend: { position: 'top' },
+                            tooltip: { enabled: false },
+                        },
+                        onHover: (event, chartElement) => {
+                            const impactDiv = document.getElementById('feature-impact');
+                            if (chartElement.length) {
+                                const index = chartElement[0].index;
+                                const featureName = features[index];
+                                impactDiv.innerHTML = `<span class="font-bold">${featureName}:</span> ${impacts[featureName]}`;
+                            } else {
+                                impactDiv.innerHTML = '<p>차트의 각 항목에 마우스를 올려 상세 설명을 확인하세요.</p>';
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

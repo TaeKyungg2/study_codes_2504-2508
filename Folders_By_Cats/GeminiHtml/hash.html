@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화형 Hashnode API 20분 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Cyan -->
+    <!-- Application Structure Plan: A single-page, scrollable application with a sticky top navigation. The structure is task-oriented, guiding the user from foundational concepts to practical application. It starts with 'Why Hashnode?', moves to 'Core Concepts' (GraphQL, Endpoints, Auth) explained in digestible chunks, then to an interactive 'Reading Data' section where users can build their own queries, and finally to 'Writing Data' and 'Use Cases'. This structure was chosen over a linear report format to allow users to quickly jump to the section most relevant to them, facilitating faster learning and better usability. The interactive query builder is the centerpiece, designed to turn passive reading into active learning. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Headless CMS concept -> Goal: Inform -> Viz/Method: HTML/CSS diagram -> Interaction: None -> Justification: A simple visual flow is more intuitive than text for explaining the architecture.
+        - Report Info: GraphQL vs. REST -> Goal: Compare -> Viz/Method: Side-by-side code blocks -> Interaction: None -> Justification: Direct comparison clearly highlights the key advantage of GraphQL (requesting only needed data).
+        - Report Info: Getting a Personal Access Token (PAT) -> Goal: Instruct -> Viz/Method: Numbered step-by-step guide with icons -> Interaction: None -> Justification: Breaks down a critical but simple process into an easy-to-follow, non-intimidating format.
+        - Report Info: Post object fields & queries -> Goal: Explore & Learn -> Viz/Method: Interactive Query Builder with checkboxes and dynamic code display -> Interaction: User checks fields to dynamically generate a GraphQL query and see a sample JSON response -> Justification: This is the core interactive element. It transforms learning from passive reading to active experimentation, which is far more effective for developers.
+        - Report Info: Filtering/Pagination -> Goal: Demonstrate -> Viz/Method: Interactive buttons that modify the displayed query -> Interaction: Click -> Justification: Shows practical API features in a live-demonstration format.
+        - Report Info: Node.js publishing script -> Goal: Provide Tool -> Viz/Method: Code block with a copy button -> Interaction: Click-to-copy -> Justification: Provides an immediately useful tool for developers to automate their workflow.
+        - Note: No data charts (Chart.js) were used as the source material is a technical guide, not a dataset. The interactive query builder serves as a more relevant and effective form of "data visualization" for this specific content.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .code-block {
+            background-color: #1e293b; /* slate-800 */
+            color: #e2e8f0; /* slate-200 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .code-block-header {
+            background-color: #334155; /* slate-700 */
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .copy-button {
+            background-color: #475569; /* slate-600 */
+            color: #cbd5e1; /* slate-300 */
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+        .copy-button:hover {
+            background-color: #64748b; /* slate-500 */
+        }
+        .nav-link {
+            transition: color 0.2s, border-bottom-color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0891b2; /* cyan-600 */
+            border-bottom-color: #0891b2; /* cyan-600 */
+        }
+        .section-icon {
+            font-size: 2rem;
+            color: #0e7490; /* cyan-700 */
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl font-bold text-slate-800">Hashnode API 가이드</h1>
+                <div class="hidden sm:flex items-center space-x-8">
+                    <a href="#intro" class="nav-link font-medium pb-1">소개</a>
+                    <a href="#concepts" class="nav-link font-medium pb-1">핵심 개념</a>
+                    <a href="#reading" class="nav-link font-medium pb-1">데이터 읽기</a>
+                    <a href="#writing" class="nav-link font-medium pb-1">데이터 쓰기</a>
+                    <a href="#use-cases" class="nav-link font-medium pb-1">활용 사례</a>
+                </div>
+                <div class="sm:hidden">
+                    <select id="mobile-nav" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-cyan-500 focus:ring-cyan-500">
+                        <option value="#intro">소개</option>
+                        <option value="#concepts">핵심 개념</option>
+                        <option value="#reading">데이터 읽기</option>
+                        <option value="#writing">데이터 쓰기</option>
+                        <option value="#use-cases">활용 사례</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Section 1: Introduction -->
+        <section id="intro" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="section-icon">🚀</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">Hashnode를 헤드리스 포트폴리오 엔진으로</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Hashnode는 단순한 블로그 플랫폼이 아닙니다. 강력한 API를 통해 콘텐츠 관리(백엔드)와 디자인(프론트엔드)을 분리하는 '헤드리스 CMS'로 완벽하게 기능합니다. 즉, 최고의 글쓰기 환경에서 콘텐츠를 작성하고, API를 이용해 자신만의 포트폴리오 사이트에서 자유롭게 보여줄 수 있습니다.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-center text-slate-800 mb-6">헤드리스 CMS 작동 방식</h3>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="text-center p-4 bg-slate-100 rounded-lg w-full md:w-auto">
+                        <div class="text-4xl">✍️</div>
+                        <div class="font-bold mt-2">1. 콘텐츠 작성</div>
+                        <p class="text-sm text-slate-500">Hashnode의 에디터 사용</p>
+                    </div>
+                    <div class="text-3xl text-cyan-500 font-mono self-center transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="text-center p-4 bg-slate-100 rounded-lg w-full md:w-auto">
+                        <div class="text-4xl">🔌</div>
+                        <div class="font-bold mt-2">2. API 호출</div>
+                        <p class="text-sm text-slate-500">GraphQL로 데이터 요청</p>
+                    </div>
+                    <div class="text-3xl text-cyan-500 font-mono self-center transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="text-center p-4 bg-slate-100 rounded-lg w-full md:w-auto">
+                        <div class="text-4xl">🎨</div>
+                        <div class="font-bold mt-2">3. 자유로운 표시</div>
+                        <p class="text-sm text-slate-500">내 포트폴리오, GitHub 등</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Core Concepts -->
+        <section id="concepts" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="section-icon">🔑</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">핵심 개념: API 사용의 기초</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Hashnode API를 사용하기 위해 알아야 할 세 가지 핵심 요소입니다. 이 개념들은 API와 소통하는 기반이 됩니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Concept 1: GraphQL -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-lg text-slate-800">1. GraphQL: 원하는 데이터만 콕 집어 요청하기</h3>
+                    <p class="mt-2 text-sm text-slate-600">Hashnode는 GraphQL을 사용합니다. 정해진 메뉴(REST API)와 달리, 내가 필요한 데이터 필드만 정확히 명시해서 요청할 수 있어 더 빠르고 효율적입니다.</p>
+                    <div class="mt-4">
+                        <div class="code-block-header"><span class="font-mono text-sm text-slate-300">GraphQL Query</span></div>
+                        <pre class="code-block"><code>query {
+  publication(host: "...") {
+    posts(first: 3) {
+      edges {
+        node {
+          title # 제목과
+          slug  # URL 슬러그만!
+        }
+      }
+    }
+  }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- Concept 2: Endpoint -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-lg text-slate-800">2. API 엔드포인트: API와 대화하는 창구</h3>
+                    <p class="mt-2 text-sm text-slate-600">API 요청을 보내는 주소입니다. 최신 기능을 지원하는 <span class="font-mono bg-slate-100 px-1 rounded">gql.hashnode.com</span> 사용을 권장합니다.</p>
+                    <div class="mt-4 space-y-2">
+                        <div class="p-3 bg-cyan-50 border border-cyan-200 rounded-lg">
+                            <p class="font-bold text-cyan-800">최신 엔드포인트 (권장)</p>
+                            <p class="font-mono text-sm text-cyan-700">https://gql.hashnode.com/</p>
+                        </div>
+                        <div class="p-3 bg-slate-100 border border-slate-200 rounded-lg">
+                            <p class="font-bold text-slate-800">레거시 엔드포인트</p>
+                            <p class="font-mono text-sm text-slate-700">https://api.hashnode.com/</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Concept 3: PAT -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-lg text-slate-800">3. 인증: 개인용 액세스 토큰(PAT)</h3>
+                    <p class="mt-2 text-sm text-slate-600">글 작성 등 민감한 작업을 하려면 인증이 필요합니다. 아래 단계로 토큰을 발급받으세요.</p>
+                    <ol class="mt-4 space-y-2 text-sm">
+                        <li class="flex items-start"><span class="mr-2 text-cyan-600 font-bold">1.</span> <span><a href="https://hashnode.com/settings/developer" target="_blank" class="text-cyan-600 hover:underline font-medium">개발자 설정</a> 페이지로 이동</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-cyan-600 font-bold">2.</span> <span>'Generate New Token' 클릭</span></li>
+                        <li class="flex items-start"><span class="mr-2 text-cyan-600 font-bold">3.</span> <span>생성된 토큰을 복사하여 안전한 곳에 보관 (다시 볼 수 없음!)</span></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Reading Data -->
+        <section id="reading" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="section-icon">📖</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">데이터 읽기: 내 포스트 가져오기 (대화형)</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">내 포트폴리오에 필요한 데이터를 가져오는 방법을 직접 체험해보세요. 아래 체크박스를 선택하여 실시간으로 GraphQL 쿼리가 어떻게 변하는지 확인하고, 어떤 데이터를 받게 되는지 살펴보세요.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-3">
+                    <!-- Query Builder Controls -->
+                    <div class="p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+                        <h3 class="font-bold text-lg text-slate-800">1. 필요한 데이터 필드 선택</h3>
+                        <p class="text-sm text-slate-500 mt-1">게시물에서 가져올 정보를 선택하세요.</p>
+                        <div id="query-fields" class="mt-4 space-y-2">
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="id" checked> <span class="ml-2">id</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="title" checked> <span class="ml-2">title</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="brief" checked> <span class="ml-2">brief</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="url"> <span class="ml-2">url</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="coverImage { url }"> <span class="ml-2">coverImage</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="tags { name, slug }"> <span class="ml-2">tags</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="publishedAt"> <span class="ml-2">publishedAt</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="readTimeInMinutes"> <span class="ml-2">readTimeInMinutes</span></label></div>
+                            <div><label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" value="totalReactions"> <span class="ml-2">totalReactions</span></label></div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Query & Response -->
+                    <div class="lg:col-span-2 p-6">
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800">2. 생성된 GraphQL 쿼리</h3>
+                                <div class="mt-2">
+                                    <div class="code-block-header">
+                                        <span class="font-mono text-sm text-slate-300">GraphQL Query</span>
+                                        <button class="copy-button" data-target="query-output">복사</button>
+                                    </div>
+                                    <pre id="query-output" class="code-block h-80"></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800">3. 예상 응답 데이터 (예시)</h3>
+                                <div class="mt-2">
+                                    <div class="code-block-header"><span class="font-mono text-sm text-slate-300">JSON Response</span></div>
+                                    <pre id="response-output" class="code-block h-80"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Writing Data -->
+        <section id="writing" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="section-icon">✍️</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">데이터 쓰기: 프로그래밍 방식으로 글 생성하기</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">API를 사용하면 단순히 글을 읽는 것을 넘어, 스크립트를 통해 자동으로 초안을 생성하는 등 워크플로우를 자동화할 수 있습니다. 이는 'Mutation'이라는 GraphQL 작업을 통해 이루어집니다.</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+                <h3 class="font-bold text-xl text-slate-800">Node.js로 마크다운 파일 업로드하기</h3>
+                <p class="mt-2 text-slate-600">아래는 로컬에 있는 마크다운(`.md`) 파일을 읽어 Hashnode에 초안으로 업로드하는 Node.js 스크립트 예제입니다. PAT 토큰과 블로그의 Publication ID를 환경 변수로 설정하고 실행하면 됩니다.</p>
+                <div class="mt-4">
+                    <div class="code-block-header">
+                        <span class="font-mono text-sm text-slate-300">Node.js Script</span>
+                        <button class="copy-button" data-target="writing-code">복사</button>
+                    </div>
+                    <pre id="writing-code" class="code-block"><code>const fs = require('fs').promises;
+const fetch = require('node-fetch');
+
+const HASHNODE_PAT = process.env.HASHNODE_PAT;
+const PUBLICATION_ID = process.env.HASHNODE_PUBLICATION_ID;
+
+async function createDraft(filePath) {
+  const content = await fs.readFile(filePath, 'utf-8');
+  const title = filePath.split('/').pop().replace('.md', '');
+
+  const mutation = \`
+    mutation CreateDraft($input: CreateDraftInput!) {
+      createDraft(input: $input) {
+        draft { id, title, url }
+      }
+    }
+  \`;
+
+  const variables = {
+    input: {
+      title,
+      contentMarkdown: content,
+      publicationId: PUBLICATION_ID,
+    }
+  };
+
+  const response = await fetch('https://gql.hashnode.com/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': HASHNODE_PAT
+    },
+    body: JSON.stringify({ query: mutation, variables })
+  });
+  
+  const result = await response.json();
+  console.log('Draft created:', result.data.createDraft.draft);
+}
+
+createDraft('./my-awesome-post.md');</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Use Cases -->
+        <section id="use-cases" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <span class="section-icon">💡</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-2">활용 사례: 무엇을 만들 수 있을까?</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">Hashnode API로 당신의 개발자 브랜드를 한 단계 업그레이드할 수 있는 몇 가지 아이디어입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-3xl">🤖</div>
+                    <h3 class="font-bold text-lg text-slate-800 mt-2">GitHub 프로필 자동화</h3>
+                    <p class="mt-2 text-sm text-slate-600">GitHub Actions를 사용해 매일 최신 블로그 포스트를 가져와 프로필 README.md를 자동으로 업데이트하세요.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-3xl">🌐</div>
+                    <h3 class="font-bold text-lg text-slate-800 mt-2">완전한 헤드리스 블로그</h3>
+                    <p class="mt-2 text-sm text-slate-600">Next.js나 Astro 같은 프레임워크로 자신만의 디자인을 가진 블로그를 처음부터 구축해보세요.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-3xl">🔗</div>
+                    <h3 class="font-bold text-lg text-slate-800 mt-2">커스텀 통합</h3>
+                    <p class="mt-2 text-sm text-slate-600">새 글이 올라오면 Discord나 Slack으로 알림을 보내는 봇을 만들거나 다른 서비스와 연동해보세요.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fieldsCheckboxes = document.querySelectorAll('#query-fields input[type="checkbox"]');
+            const queryOutput = document.getElementById('query-output');
+            const responseOutput = document.getElementById('response-output');
+            const copyButtons = document.querySelectorAll('.copy-button');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            const sampleData = {
+                id: '"clt1y2x3z000108l3b4c5d6e7"',
+                title: '"나의 첫 헤드리스 블로그 포스트"',
+                brief: '"Hashnode API를 사용하여 나만의 포트폴리오에 글을 표시하는 방법을 알아봅니다..."',
+                url: '"https://your-blog.hashnode.dev/my-first-post"',
+                'coverImage { url }': '{\n        "url": "https://cdn.hashnode.com/res/..."\n      }',
+                'tags { name, slug }': '[\n        {\n          "name": "JavaScript",\n          "slug": "javascript"\n        },\n        {\n          "name": "API",\n          "slug": "api"\n        }\n      ]',
+                publishedAt: '"2024-07-28T10:30:00.000Z"',
+                readTimeInMinutes: 5,
+                totalReactions: 42,
+            };
+
+            function updateQueryAndResponse() {
+                const selectedFields = Array.from(fieldsCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+
+                const fieldsString = selectedFields.length > 0 ? `          ${selectedFields.join('\n          ')}` : '';
+
+                const query = `query PublicationPosts {
+  publication(host: "your-blog.hashnode.dev") {
+    posts(first: 3) {
+      edges {
+        node {
+${fieldsString}
+        }
+      }
+    }
+  }
+}`;
+                queryOutput.textContent = query;
+
+                const responseNode = selectedFields.map(field => {
+                    const key = field.replace(/ \{.*\}/, '');
+                    return `          "${key}": ${sampleData[field]}`;
+                }).join(',\n');
+                
+                const response = `{
+  "data": {
+    "publication": {
+      "posts": {
+        "edges": [
+          {
+            "node": {
+${responseNode}
+            }
+          }
+        ]
+      }
+    }
+  }
+}`;
+                responseOutput.textContent = response;
+            }
+
+            fieldsCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateQueryAndResponse);
+            });
+
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const textToCopy = targetElement.textContent;
+                        
+                        // Using a temporary textarea element for robust copying
+                        const textArea = document.createElement('textarea');
+                        textArea.value = textToCopy;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            button.textContent = '복사됨!';
+                            setTimeout(() => {
+                                button.textContent = '복사';
+                            }, 2000);
+                        } catch (err) {
+                            console.error('Copy failed', err);
+                            button.textContent = '실패';
+                        }
+                        document.body.removeChild(textArea);
+                    }
+                });
+            });
+
+            mobileNav.addEventListener('change', (e) => {
+                window.location.hash = e.target.value;
+            });
+
+            // Initial call
+            updateQueryAndResponse();
+        });
+    </script>
+</body>
+</html>

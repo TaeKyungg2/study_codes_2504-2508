@@ -40,7 +40,7 @@ with mss.mss() as sct:
         # y_offset = random.randint(-10, 10)
         # pyautogui.moveTo(pyautogui.position().x + x_offset, pyautogui.position().y + y_offset)
         print(f"{i}번째 캡처 완료!")
-        time.sleep(1.5)
+        time.sleep(1)
         # 키보드 오른쪽 방향키 누르기(가상 입력)
         keyboard.press_and_release('right')
         # if random.randint(1,10)<3:
