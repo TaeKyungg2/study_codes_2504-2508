@@ -17,8 +17,8 @@ repeat_count = int(input())
 # input()
 # right_bottom = pyautogui.position()
 # print(f"오른쪽 아래 좌표: {right_bottom}")
-left_top =pyautogui.Point(x=1991, y=-272)
-right_bottom=pyautogui.Point(x=2923, y=942)
+left_top =pyautogui.Point(x=2077, y=-487)
+right_bottom=pyautogui.Point(x=2787, y=481)
 x1, y1 = left_top
 x2, y2 = right_bottom
 
