@@ -1,15 +1,51 @@
-// This is a comment, and is ignored by the compiler.
-// You can test this code by clicking the "Run" button over there ->
-// or if you prefer to use your keyboard, you can use the "Ctrl + Enter"
-// shortcut.
+// Define a struct for a Person
+struct Person {
+    name: String,
+    age: u32,
+}
 
-// This code is editable, feel free to hack it!
-// You can always return to the original code by clicking the "Reset" button ->
+// Define an enum for different commands
+enum Command {
+    SayHello,
+    SayGoodbye,
+    CheckAge,
+}
 
-// This is the main function.
+// Function to process a command for a person
+fn process_command(person: &Person, command: Command) {
+    match command {
+        Command::SayHello => {
+            println!("Hello, {}!", person.name);
+        }
+        Command::SayGoodbye => {
+            println!("Goodbye, {}!", person.name);
+        }
+        Command::CheckAge => {
+            if person.age >= 18 {
+                println!("{} is an adult.", person.name);
+            } else {
+                println!("{} is a minor.", person.name);
+            }
+        }
+    }
+}
+
 fn main() {
-    // Statements here are executed when the compiled binary is called.
-    // Print text to the console.
-    println!("Hello World!");
-    println!("예쁜 예은이");
+    // Create a new person
+    let person = Person {
+        name: String::from("Alice"),
+        age: 25,
+    };
+
+    // Create a list of commands
+    let commands = vec![
+        Command::SayHello,
+        Command::CheckAge,
+        Command::SayGoodbye,
+    ];
+
+    // Process each command
+    for command in commands {
+        process_command(&person, command);
+    }
 }
