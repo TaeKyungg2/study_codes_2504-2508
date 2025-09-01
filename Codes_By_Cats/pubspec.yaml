@@ -1,0 +1,5 @@
+name: persian
+dependencies:
+  http: ^1.2.0
+environment:
+  sdk: '^3.9.0'
